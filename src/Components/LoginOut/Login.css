@@ -1,0 +1,26 @@
+@media all and (min-width: 480px) {
+  .Login {
+    padding: 60px 0;
+  }
+
+  .Login form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+  .email-icons {
+    margin-left: -220px;
+    margin-top: -45px;
+    font-size: 50px;
+    cursor: pointer;
+    color: rgb(72, 160, 187);
+    position: absolute;
+  }
+  .password-icons {
+    margin-left: -220px;
+    margin-top: -50px;
+    font-size: 50px;
+    cursor: pointer;
+    color: rgb(72, 160, 187);
+    position: absolute;
+  }
+}

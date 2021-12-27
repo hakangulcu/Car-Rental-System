@@ -1,0 +1,35 @@
+.AddCarPage {
+  display: flex;
+}
+.carImage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0.3;
+  margin-top: 50px;
+  margin-right: 150px;
+}
+.carImage > img {
+  width: 50%;
+  height: auto;
+}
+.carInfoForm {
+  display: flex;
+  margin-top: 50px;
+  flex: 0.7;
+}
+.carInfoColumn > input {
+  width: 100%;
+  margin-bottom: 10px;
+  border: 2px solid rgb(0, 0, 0);
+}
+.carInfoColumn {
+  display: flex;
+  flex-direction: column;
+  margin-right: 100px;
+}
+.AddCarButton {
+  margin-top: 150px;
+  display: flex;
+  justify-content: right;
+}

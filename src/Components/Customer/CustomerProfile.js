@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Popup from "../popUp/Popup";
 import bmwI8 from "../../images/bmw-i8.png";
 
 function CustomerProfile() {
@@ -16,6 +17,9 @@ function CustomerProfile() {
   const [newPassword, setNewPassword] = useState("");
   const [dateBirth, setDateBirth] = useState(new Date());
   const [licenceDate, setLicenceDate] = useState(new Date());
+  const [message, setMessage] = useState("");
+  const [popUp, setPopUp] = useState(false);
+  const [editPopUp, setEditPopUp] = useState(false);
   const [person, setPerson] = useState({
     name: "",
     surname: "",
@@ -28,9 +32,13 @@ function CustomerProfile() {
     given_date: "",
   });
 
+  let customerEmail = localStorage.getItem("customerEmail");
+  let customerPassword = localStorage.getItem("customerPassword");
+
   useEffect(() => {
+    let customerEmail = localStorage.getItem("customerEmail");
+    let customerPassword = localStorage.getItem("customerPassword");
     const getProfileProperties = (e) => {
-      let customerEmail = localStorage.getItem("customerEmail");
       fetch(
         `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/customerprofile?email=${customerEmail}`
       )
@@ -38,7 +46,6 @@ function CustomerProfile() {
         .then(
           (result) => {
             setIsLoaded(true);
-            console.log(result.body);
             result.body &&
               Object.keys(result.body).map((key) => {
                 let properties = result.body[key];
@@ -77,12 +84,53 @@ function CustomerProfile() {
     });
   };
 
+  const handleChangePassword = (e) => {
+    if (customerPassword === oldPassword) {
+      fetch(
+        `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/changepassword?email=${customerEmail}&old_password=123&new_password=${newPassword}`
+      )
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            setIsLoaded(true);
+            if (result.body["message"] === "executionTrue") {
+              setMessage("Password Change is Successfull");
+              clickHandler();
+            } else if (result.body["message"] === "executionFalse") {
+              setMessage("Password Change is Unsuccessfull !!!!!!!");
+              console.log(message);
+              clickHandler();
+            } else {
+              alert("Database Connection Get Error");
+            }
+          },
+          (error) => {
+            setIsLoaded(true);
+            setError(error);
+          }
+        );
+    } else {
+      setMessage("Old password is wrong");
+      console.log(message);
+      clickHandler();
+    }
+  };
+
   if (person.name === "") {
-    return <div> Loading....</div>;
+    return (
+      <Popup trigger={<button> Trigger</button>} position="right center">
+        <div>Loading .....</div>
+      </Popup>
+    );
   }
+
+  const clickHandler = () => {
+    setPopUp(true);
+  };
+
   return (
     <div className="customer-profile">
-      <div className="profile-image"  style={{marginTop:"3%"}}>
+      <div className="profile-image" style={{ marginTop: "3%" }}>
         <img src={profileImage} alt="" />
         <br></br>
         <a href="#">Remove Image </a>
@@ -108,12 +156,16 @@ function CustomerProfile() {
           />
         </Form.Group>
         <br></br>
-        <Button variant="secondary" style={{ backgroundColor: "black" }}>
+        <Button
+          variant="secondary"
+          style={{ backgroundColor: "black" }}
+          onClick={handleChangePassword}
+        >
           Change Password
         </Button>
       </div>
 
-      <div className="profile-information" style={{marginTop:"5%"}}>
+      <div className="profile-information" style={{ marginTop: "5%" }}>
         <Form onSubmit={handleSubmit}>
           <Form.Group size="lg" controlId="name">
             <Form.Control
@@ -268,7 +320,7 @@ function CustomerProfile() {
               }}
             />
           </div>
-          <div className="information" style={{marginLeft: "5%"}}>
+          <div className="information" style={{ marginLeft: "5%" }}>
             Car Brand
             <br />
             Car Model
@@ -286,7 +338,7 @@ function CustomerProfile() {
             Rental Type
           </div>
         </div>
-        <div className="carInformation" >
+        <div className="carInformation">
           <div className="image">
             <img
               src={bmwI8}
@@ -299,7 +351,7 @@ function CustomerProfile() {
               }}
             />
           </div>
-          <div className="information"  style={{marginLeft: "5%"}}>
+          <div className="information" style={{ marginLeft: "5%" }}>
             Car Brand
             <br />
             Car Model
@@ -318,6 +370,7 @@ function CustomerProfile() {
           </div>
         </div>
       </div>
+      <Popup trigger={popUp} setPopUp={setPopUp} message={message} />
     </div>
   );
 }

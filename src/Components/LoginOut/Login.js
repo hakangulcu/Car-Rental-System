@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import img1 from "../../images/carRental.jpg";
 import SwitchButton from "../Switch/SwitchButton";
 import { useLocation, useNavigate } from "react-router-dom";
+import Popup from "../popUp/Popup";
 
 import "./Login.css";
 import getPlacements from "antd/lib/tooltip/placements";
@@ -20,12 +21,13 @@ function Login(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [popUp, setPopUp] = useState(false);
+  const [editPopUp, setEditPopUp] = useState(false);
+  const [message, setMessage] = useState("");
 
   let navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   function validateForm() {
     return email.length > 0 && password.length > 0;
@@ -34,7 +36,8 @@ function Login(props) {
   function handleSubmit(event) {
     event.preventDefault();
     fetch(
-      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/login?email=${email}&password=${password}`
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/login?email=${email}&password=${password}
+      `
     )
       .then((res) => res.json())
       .then(
@@ -42,15 +45,49 @@ function Login(props) {
           setIsLoaded(true);
           setData(result.body);
           if (result.body["message"] === "executionTrue") {
-            navigate("/main");
-            localStorage.setItem("logedIn", "true");
-            localStorage.setItem("customerEmail", email);
+            if (result.body["person_type"] === "customer") {
+              localStorage.setItem("logedIn", "true");
+              localStorage.setItem("customerEmail", email);
+              localStorage.setItem("customerPassword", password);
+              localStorage.setItem("customerId", result.body["customer"][0]);
+              localStorage.setItem("customerType", result.body["person_type"]);
+              navigate("/customerMainPage");
+            } else if (result.body["person_type"] === "employee") {
+              localStorage.setItem("logedIn", "true");
+              localStorage.setItem("employeeEmail", email);
+              localStorage.setItem("employeePassword", password);
+              localStorage.setItem("employeeId", result.body["employee"][0]);
+              localStorage.setItem("employeeType", result.body["person_type"]);
+              navigate("/employeeMain");
+            } else if (result.body["person_type"] === "manager") {
+              localStorage.setItem("logedIn", "true");
+              localStorage.setItem("managerEmail", email);
+              localStorage.setItem("managerPassword", password);
+              localStorage.setItem("managerId", result.body["manager"][0]);
+              localStorage.setItem("managerType", result.body["person_type"]);
+              navigate("/ManagerMainPage");
+            } else if (result.body["person_type"] === "premium_customer") {
+              localStorage.setItem("logedIn", "true");
+              localStorage.setItem("premium_customerEmail", email);
+              localStorage.setItem("premium_customerPassword", password);
+              localStorage.setItem(
+                "premium_customerId",
+                result.body["customer"][0]
+              );
+              localStorage.setItem(
+                "premium_customerType",
+                result.body["person_type"]
+              );
+              navigate("/customerMainPage");
+            }
           } else if (result.body["message"] === "executionFalse") {
             localStorage.setItem("logedIn", "false");
-            alert("Email or Password is wrong !!!");
+            setMessage("Email or Password is wrong !!!");
+            clickHandler();
           } else {
             localStorage.setItem("logedIn", "false");
-            alert("Database Connection Get Error");
+            setMessage("Database Connection Get Error");
+            clickHandler();
           }
         },
         (error) => {
@@ -59,10 +96,23 @@ function Login(props) {
         }
       );
   }
+  const clickHandler = () => {
+    setPopUp(true);
+  };
 
   return (
     <div>
-      <Container>
+      <Container
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 4,
+          lg: 2,
+          xl: 6,
+          xxl: 3,
+        }}
+      >
         <Row>
           <Col lg={6} style={{}}>
             <img
@@ -119,6 +169,7 @@ function Login(props) {
           </Col>
         </Row>
       </Container>
+      <Popup trigger={popUp} setPopUp={setPopUp} message={message} />
     </div>
   );
 }

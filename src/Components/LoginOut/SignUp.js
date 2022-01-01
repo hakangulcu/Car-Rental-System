@@ -107,13 +107,25 @@ function SignUp() {
   return (
     <div>
       <Container>
-        <Row >
+        <Row>
+          <Col lg={6} style={{}}>
+            <img
+              src={img1}
+              alt=""
+              style={{
+                width: "600px",
+                height: "500px",
+                marginTop: "250px",
+              }}
+            />
+          </Col>
           {/*<SwitchButton /> */}
           <Col
-           style={{ margin: "auto",width: "50%", padding: "10px"}}
-          > 
-            <div className="Login" >
-              <Form onSubmit={handleSubmit} class="loginCSS">
+            lg={6}
+            style={{ alignItems: "center", flext: "1", marginTop: "200px" }}
+          >
+            <div className="Login">
+              <Form onSubmit={handleSubmit}>
                 <Form.Group size="lg" controlId="name">
                   <Form.Control
                     autoFocus
@@ -238,6 +250,16 @@ function SignUp() {
                   />
                   {<RiLockPasswordLine className="password-icons" />}
                 </Form.Group>
+
+                <div style={{ marginTop: "20px", alignItems: "left" }}>
+                  <DatePicker
+                    selected={licenceDate}
+                    dateFormat={"dd/MM/yyyy"}
+                    onChange={(date) => setLicenceDate(date)}
+                  />
+                </div>
+                {<BsCalendar2DateFill className="email-icons" />}
+
                 <Button
                   style={{ marginTop: "10px", width: "150px" }}
                   block="true"

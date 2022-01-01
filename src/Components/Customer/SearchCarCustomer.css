@@ -1,7 +1,7 @@
 .searchCarCustomer {
-    display:flex;
-    width: 100%;
-    minWidth: 100%;
+  display: flex;
+  width: 100%;
+  min-width: 100%;
 }
 .search {
   padding: 10px;

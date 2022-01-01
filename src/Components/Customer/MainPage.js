@@ -2,7 +2,6 @@
 /* eslint-disable no-lone-blocks */
 import React, { useState } from "react";
 import { Input } from "antd";
-import "./MainPage.css";
 
 import Form from "react-bootstrap/Form";
 import Figure from "react-bootstrap/Figure";
@@ -26,8 +25,7 @@ function MainPage() {
   return (
     <div className="fullPage">
       <div className="search-area">
-        <Search class ="searchArea"
-          type = "searchButton"
+        <Search
           placeholder="Please enter brand"
           style={{ textAlign: "center" }}
           onSearch={onSearch}
@@ -61,7 +59,7 @@ function MainPage() {
         <Card>
           <div className="advertisements-2">
             <img
-              src={img1}
+              src={img2}
               alt=""
               style={{
                 height: "25%",
@@ -84,7 +82,7 @@ function MainPage() {
         <Card>
           <div className="advertisements-3">
             <img
-              src={img1}
+              src={img3}
               alt=""
               style={{
                 height: "25%",
@@ -107,7 +105,7 @@ function MainPage() {
         <Card>
           <div className="advertisements-4">
             <img
-              src={img1}
+              src={img4}
               alt=""
               style={{
                 height: "25%",
@@ -134,7 +132,7 @@ function MainPage() {
             alt=""
             style={{
               height: "100%",
-              width: "50%",
+              width: "25%",
               display: "block",
               margin: "auto",
             }}
@@ -155,7 +153,7 @@ function MainPage() {
             alt=""
             style={{
               height: "100%",
-              width: "50%",
+              width: "25%",
               display: "block",
               margin: "auto",
             }}

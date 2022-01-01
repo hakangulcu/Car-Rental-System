@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 
 function AddCarPage() {
   return (
-    <div className="AddCarPage">
+    <div className="AddCarPage" id="addCarPageCSS">
         <div className="carImage">
           <img
             style={{ width: "100%" }}

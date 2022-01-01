@@ -5,21 +5,36 @@
 .ManagerMainPageColumns {
   display: flex;
 }
-.CarsColumn {
-  display: flex;
-  flex: 0.5;
-  flex-direction: column;
-  margin-top: 50px;
-  margin-left: 25px;
-  height: 100vh;
-  overflow-y: scroll;
-}
 .TopRow {
   display: flex;
   justify-content: right;
   margin-right: 50px;
   margin-top: 25px;
 }
+.CarsColumn {
+  display: flex;
+  flex: 0.33;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-left: 25px;
+  height: 100vh;
+  overflow-y: scroll;
+}
+.TransportationColumn {
+  display: flex;
+  flex: 0.33;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-left: 25px;
+  height: 100vh;
+  overflow-y: scroll;
+}
+.Employees {
+  height: 100vh;
+  overflow-y: scroll;
+  flex: 0.33;
+}
+
 .EmployeeInformation {
   display: flex;
   flex: 0.5;
@@ -35,11 +50,7 @@
   flex-direction: column;
   margin-left: 50px;
 }
-.Employees {
-  height: 100vh;
-  overflow-y: scroll;
-  flex: 0.5;
-}
+
 .CarsInformation {
   display: flex;
   flex: 0.5;
@@ -58,6 +69,31 @@
   align-items: center;
 }
 .CarDetails {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  margin-left: 25px;
+  font-size: 12px;
+}
+
+.TransportationInformation {
+  display: flex;
+  flex: 0.5;
+  margin: auto;
+  width: 70%;
+  padding: 5%;
+}
+.TransportationInformationImage {
+  display: flex;
+  align-items: center;
+}
+.TransportationInformationImage > img {
+  width: 75%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+}
+.TransportationInformationDetails {
   display: flex;
   align-items: center;
   font-weight: bold;

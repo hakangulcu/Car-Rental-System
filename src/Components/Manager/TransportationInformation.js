@@ -4,10 +4,10 @@ import "./ManagerMainPage.css";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import { RightCircleOutlined } from "@ant-design/icons";
 
-function CarsInformation() {
+function TransportationInformation() {
   return (
-    <div className="CarsInformation">
-      <div className="CarImage">
+    <div className="TransportationInformation">
+      <div className="TransportationImage">
         <LeftCircleOutlined
           style={{
             display: "flex",
@@ -26,31 +26,23 @@ function CarsInformation() {
         />
       </div>
 
-      <div className="CarDetails">
-        Car Brand
+      <div className="TransportationDetails">
+        plate
         <br />
-        Car Model
+        permit_serial_number
         <br />
         Color
         <br />
-        Fee
+        insurance_serial_number
         <br />
-        Km
+        brand_name
         <br />
-        Permit Serial Number
+        model_name
         <br />
-        Insurance Information
-        <br />
-        Current Fuel
-        <br />
-        Accessories
-        <br />
-        Car Condition
-        <br />
-        Status
+        capacity km_price
       </div>
     </div>
   );
 }
 
-export default CarsInformation;
+export default TransportationInformation;

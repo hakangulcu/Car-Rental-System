@@ -14,18 +14,20 @@ function EmployeeInformation() {
   }
 
   return (
-    <div className="EmployeeInformation" style={{margin: "auto",
-      width: "50%",
-      padding: "10px",}}>
-      <div className="nameSurname" style={{margin: "auto",
-      width: "50%",
-      border: "3px",
-      padding: "10px",}}>
-        <img style={{margin: "auto",
-      width: "50%",
-      padding: "10px",}} src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"></img>
+    <div
+      className="EmployeeInformation"
+      style={{ margin: "auto", width: "50%", padding: "10px" }}
+    >
+      <div
+        className="nameSurname"
+        style={{ margin: "auto", width: "50%", border: "3px", padding: "10px" }}
+      >
+        <img
+          style={{ margin: "auto", width: "50%", padding: "10px" }}
+          src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"
+        ></img>
         <Form onSubmit={handleSubmit}>
-          <Form.Group size="lg" controlId="name" >
+          <Form.Group size="lg" controlId="name">
             <Form.Control
               autoFocus
               type="text"

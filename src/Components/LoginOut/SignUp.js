@@ -18,12 +18,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import img1 from "../../images/carRental.jpg";
 import SwitchButton from "../Switch/SwitchButton";
 import { useLocation, useNavigate } from "react-router-dom";
+import Popup from "../popUp/Popup";
 
 import "./SignUp.css";
 
 function SignUp() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [popUp, setPopUp] = useState(false);
+  const [editPopUp, setEditPopUp] = useState(false);
+  const [message, setMessage] = useState("");
 
   const [person, setPerson] = useState({
     name: "",
@@ -78,9 +82,12 @@ function SignUp() {
             console.log(result.body);
             console.log(result.body["message"]);
             if (result.body["message"] === "executionTrue") {
+              setMessage("Sign Up is succesfull");
+              clickHandler();
               navigate("/login");
             } else if (result.body["message"] === "executionFalse") {
-              alert("Email is used before !!!");
+              setMessage("Sign Up is not succesfull");
+              clickHandler();
             } else {
               alert("Database Connection Get Error");
             }
@@ -103,18 +110,19 @@ function SignUp() {
       };
     });
   };
+  const clickHandler = () => {
+    setPopUp(true);
+  };
 
   return (
     <div class="signUpCSS">
       <Container>
         <Row>
           {/*<SwitchButton /> */}
-          <Col
-            style={{ margin: "auto",width: "50%", padding: "10px"}}
-          >
-            <div className="Login" >
-              <Form onSubmit={handleSubmit} >
-                <Form.Group size="lg" controlId="name" >
+          <Col style={{ margin: "auto", width: "50%", padding: "10px" }}>
+            <div className="Login">
+              <Form onSubmit={handleSubmit}>
+                <Form.Group size="lg" controlId="name">
                   <Form.Control
                     autoFocus
                     type="text"
@@ -154,6 +162,17 @@ function SignUp() {
                 </Form.Group>
 
                 <div style={{ marginTop: "20px", alignItems: "left" }}>
+                  <label
+                    style={{
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                      fontWeight: "bold",
+                      color: "grey",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    Birth Date
+                  </label>
                   <DatePicker
                     dateFormat={"dd/MM/yyyy"}
                     selected={birthDate}
@@ -240,6 +259,17 @@ function SignUp() {
                 </Form.Group>
 
                 <div style={{ marginTop: "20px", alignItems: "left" }}>
+                  <label
+                    style={{
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                      fontWeight: "bold",
+                      color: "grey",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    Licence Given Date
+                  </label>
                   <DatePicker
                     selected={licenceDate}
                     dateFormat={"dd/MM/yyyy"}
@@ -262,6 +292,7 @@ function SignUp() {
           </Col>
         </Row>
       </Container>
+      <Popup trigger={popUp} setPopUp={setPopUp} message={message} />
     </div>
   );
 }

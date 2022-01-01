@@ -19,7 +19,7 @@ import img1 from "../../images/carRental.jpg";
 import SwitchButton from "../Switch/SwitchButton";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import "./Login.css";
+import "./SignUp.css";
 
 function SignUp() {
   const [error, setError] = useState(null);
@@ -105,28 +105,16 @@ function SignUp() {
   };
 
   return (
-    <div>
+    <div class="signUpCSS">
       <Container>
         <Row>
-          <Col lg={6} style={{}}>
-            <img
-              src={img1}
-              alt=""
-              style={{
-                width: "600px",
-                height: "500px",
-                marginTop: "250px",
-              }}
-            />
-          </Col>
           {/*<SwitchButton /> */}
           <Col
-            lg={6}
-            style={{ alignItems: "center", flext: "1", marginTop: "200px" }}
+            style={{ margin: "auto",width: "50%", padding: "10px"}}
           >
-            <div className="Login">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group size="lg" controlId="name">
+            <div className="Login" >
+              <Form onSubmit={handleSubmit} >
+                <Form.Group size="lg" controlId="name" >
                   <Form.Control
                     autoFocus
                     type="text"

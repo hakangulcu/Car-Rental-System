@@ -1,4 +1,4 @@
-input[type="text"] {
+addCarPageCSS.input[type="text"] {
   width: 100%;
   padding: 6px 12px;
   margin: 15px 0;
@@ -6,16 +6,16 @@ input[type="text"] {
   border-radius: 10px;
   border-width: 4px;
 }
-input[type="text"]:not(:placeholder-shown) {
+addCarPageCSS.input[type="text"]:not(:placeholder-shown) {
   border-color: black;
   border-width: 4px;
 }
-input[type="text"]:focus {
+addCarPageCSS.input[type="text"]:focus {
   outline: none !important;
   border: 1px solid red;
   border-width: 4px;
 }
-input[type="number"] {
+addCarPageCSS.input[type="number"] {
   width: 100%;
   padding: 6px 12px;
   margin: 15px 0;
@@ -23,16 +23,16 @@ input[type="number"] {
   border-radius: 10px;
   border-width: 4px;
 }
-input[type="number"]:not(:placeholder-shown) {
+addCarPageCSS.input[type="number"]:not(:placeholder-shown) {
   border-color: black;
   border-width: 4px;
 }
-input[type="number"]:focus {
+addCarPageCSS.input[type="number"]:focus {
   outline: none !important;
   border: 1px solid red;
   border-width: 4px;
 }
-input[name="email"] {
+addCarPageCSS.input[name="email"] {
   width: 100%;
   padding: 6px 12px;
   margin: 15px 0;
@@ -41,12 +41,12 @@ input[name="email"] {
   border-width: 4px;
 }
 
-input[name="email"] :not(:placeholder-shown) {
+addCarPageCSS.input[name="email"] :not(:placeholder-shown) {
   border-color: black;
   border-width: 4px;
 }
 
-input[name="email"] :focus {
+addCarPageCSS.input[name="email"] :focus {
   outline: none !important;
   border: 1px solid red;
   border-width: 4px;

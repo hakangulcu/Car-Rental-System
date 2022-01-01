@@ -9,6 +9,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Popup from "../popUp/Popup";
 import bmwI8 from "../../images/bmw-i8.png";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 function CustomerProfile() {
   const [error, setError] = useState(null);
@@ -46,6 +47,7 @@ function CustomerProfile() {
         .then(
           (result) => {
             setIsLoaded(true);
+            console.log(result.body);
             result.body &&
               Object.keys(result.body).map((key) => {
                 let properties = result.body[key];
@@ -118,9 +120,16 @@ function CustomerProfile() {
 
   if (person.name === "") {
     return (
-      <Popup trigger={<button> Trigger</button>} position="right center">
-        <div>Loading .....</div>
-      </Popup>
+      <div
+        style={{
+          margin: "auto",
+          width: "50%",
+          padding: "10px",
+          marginTop: "25%",
+        }}
+      >
+        <ProgressBar animated now={45} style={{ height: "75px" }} />
+      </div>
     );
   }
 

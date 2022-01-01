@@ -52,6 +52,7 @@ function App() {
         <Route path="/CarsInformation" element={<CarsInformation />} />
         <Route path="/EmployeeInformation" element={<EmployeeInformation />} />
         <Route path="/ManagerMainPage" element={<ManagerMainPage />} />
+        <Route path="/MainPage" element={<MainPage />} />
       </Routes>
     </Router>
   );

@@ -138,7 +138,7 @@ function CustomerProfile() {
   };
 
   return (
-    <div className="customer-profile">
+    <div className="customer-profile" id = "customerProfileCSS">
       <div className="profile-image" style={{ marginTop: "3%" }}>
         <img src={profileImage} alt="" />
         <br></br>

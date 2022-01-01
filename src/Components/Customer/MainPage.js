@@ -59,7 +59,7 @@ function MainPage() {
         <Card>
           <div className="advertisements-2">
             <img
-              src={img2}
+              src={img1}
               alt=""
               style={{
                 height: "25%",
@@ -82,7 +82,7 @@ function MainPage() {
         <Card>
           <div className="advertisements-3">
             <img
-              src={img3}
+              src={img1}
               alt=""
               style={{
                 height: "25%",
@@ -105,7 +105,7 @@ function MainPage() {
         <Card>
           <div className="advertisements-4">
             <img
-              src={img4}
+              src={img1}
               alt=""
               style={{
                 height: "25%",
@@ -165,6 +165,29 @@ function MainPage() {
               marginTop: "10px",
               width: "150px",
             }}
+            block
+            size="lg"
+            type="submit"
+          >
+            Rent
+          </Button>
+
+          
+        </div>
+        <div className="car1">
+          <img
+            src={audiA3}
+            alt=""
+            style={{
+              height: "100%",
+              width: "25%",
+              display: "block",
+              margin: "auto",
+            }}
+          />
+          <h4>Available at 10.01.2021 - 15.01.2021</h4>
+          <Button
+            style={{ marginTop: "10px", width: "150px" }}
             block
             size="lg"
             type="submit"

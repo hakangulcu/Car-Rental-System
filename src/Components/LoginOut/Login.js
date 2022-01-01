@@ -62,17 +62,7 @@ function Login(props) {
 
   return (
     <div>
-      <Container
-        grid = {{
-          gutter:16,
-          xs: 1,
-          sm: 2,
-          md: 4,
-          lg: 2,
-          xl: 6,
-          xxl: 3,
-        }}
-      >
+      <Container>
         <Row>
           <Col lg={6} style={{}}>
             <img

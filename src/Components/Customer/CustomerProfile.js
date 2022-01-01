@@ -82,7 +82,7 @@ function CustomerProfile() {
   }
   return (
     <div className="customer-profile">
-      <div className="profile-image">
+      <div className="profile-image"  style={{marginTop:"3%"}}>
         <img src={profileImage} alt="" />
         <br></br>
         <a href="#">Remove Image </a>
@@ -113,7 +113,7 @@ function CustomerProfile() {
         </Button>
       </div>
 
-      <div className="profile-information">
+      <div className="profile-information" style={{marginTop:"5%"}}>
         <Form onSubmit={handleSubmit}>
           <Form.Group size="lg" controlId="name">
             <Form.Control
@@ -245,8 +245,9 @@ function CustomerProfile() {
       <div className="rental-information">
         <h3
           style={{
-            marginTop: "5px",
-            marginBottom: "5px",
+            marginTop: "0 auto",
+            marginBottom: "5%",
+            marginLeft: "20%",
             fontWeight: "bold",
             color: "black",
             fontStyle: "italic",
@@ -267,7 +268,7 @@ function CustomerProfile() {
               }}
             />
           </div>
-          <div className="information">
+          <div className="information" style={{marginLeft: "5%"}}>
             Car Brand
             <br />
             Car Model
@@ -285,7 +286,7 @@ function CustomerProfile() {
             Rental Type
           </div>
         </div>
-        <div className="carInformation">
+        <div className="carInformation" >
           <div className="image">
             <img
               src={bmwI8}
@@ -298,7 +299,7 @@ function CustomerProfile() {
               }}
             />
           </div>
-          <div className="information">
+          <div className="information"  style={{marginLeft: "5%"}}>
             Car Brand
             <br />
             Car Model

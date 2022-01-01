@@ -132,7 +132,7 @@ function MainPage() {
             alt=""
             style={{
               height: "100%",
-              width: "50%",
+              width: "25%",
               display: "block",
               margin: "auto",
             }}
@@ -153,7 +153,7 @@ function MainPage() {
             alt=""
             style={{
               height: "100%",
-              width: "50%",
+              width: "25%",
               display: "block",
               margin: "auto",
             }}

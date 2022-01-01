@@ -43,6 +43,9 @@
 .CarsInformation {
   display: flex;
   flex: 0.5;
+  margin: auto;
+  width: 70%;
+  padding: 5%;
 }
 .CarImage {
   display: flex;

@@ -40,11 +40,11 @@ function SearchCarCustomer() {
       <div className="showcase-screen">
         <div className="showcase-screen-left">
           <div className="branch">
-            <div style={{ marginLeft: "50px", width: "120px" }}>
+            <div style={{marginLeft:"20%", marginTop:"5%",}}>
               <h3>Branch</h3>
             </div>
 
-            <div style={{ marginLeft: "50px" }}>
+            <div style={{marginLeft:"30%", marginTop:"5%",}}>
               <Select
                 defaultValue="istanbul"
                 style={{ width: 120 }}
@@ -57,12 +57,13 @@ function SearchCarCustomer() {
             </div>
           </div>
 
+          <h4 style={{marginLeft:"20%", marginTop:"5%",}}>Brand</h4>
           <div className="brand">
-            <h4>Brand</h4>
             <Checkbox.Group
               style={{
-                width: "50%",
+                width: "35%",
                 padding: "10px",
+                marginLeft: "20%"
               }}
             >
               <Col>
@@ -107,7 +108,7 @@ function SearchCarCustomer() {
               />
             </Space>
           </div>
-          <div className="price">
+          <div className="price" style={{marginLeft:"20%", marginTop:"5%",}}>
             <h4>Price</h4>
             <div className="range-from">
               <div className="from">From:</div>
@@ -118,8 +119,8 @@ function SearchCarCustomer() {
               <Input type="number" placeholder="" style={{ width: "50%" }} />
             </div>
           </div>
-          <div className="type">
-            <h4>Type</h4>
+          <h4 style={{marginLeft:"20%", marginTop:"5%",}}>Type</h4>
+          <div className="type" style={{marginLeft:"20%", marginTop:"5%",}}>
             <Checkbox.Group
               style={{
                 width: "50%",

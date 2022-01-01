@@ -14,17 +14,24 @@ function EmployeeInformation() {
   }
 
   return (
-    <div className="EmployeeInformation">
-      <img src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg" />
-      <div className="nameSurname">
+    <div className="EmployeeInformation" style={{margin: "auto",
+      width: "50%",
+      padding: "10px",}}>
+      <div className="nameSurname" style={{margin: "auto",
+      width: "50%",
+      border: "3px",
+      padding: "10px",}}>
+        <img style={{margin: "auto",
+      width: "50%",
+      padding: "10px",}} src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"></img>
         <Form onSubmit={handleSubmit}>
-          <Form.Group size="lg" controlId="name">
+          <Form.Group size="lg" controlId="name" >
             <Form.Control
               autoFocus
               type="text"
               name="name"
               value={person.name}
-              placeholder="Name"
+              placeholder="Name: "
               style={{ marginTop: "5px" }}
               disabled
             />
@@ -36,7 +43,29 @@ function EmployeeInformation() {
               type="text"
               name="surname"
               value={person.surname}
-              placeholder="Surname"
+              placeholder="Surname: "
+              style={{ marginTop: "20px" }}
+              disabled
+            />
+          </Form.Group>
+          <Form.Group size="lg" controlId="email">
+            <Form.Control
+              autoFocus
+              type="text"
+              name="email"
+              value={person.email}
+              placeholder="Email: "
+              style={{ marginTop: "20px" }}
+              disabled
+            />
+          </Form.Group>
+          <Form.Group size="lg" controlId="branch">
+            <Form.Control
+              autoFocus
+              type="text"
+              name="branch"
+              value={person.branch}
+              placeholder="Branch: "
               style={{ marginTop: "20px" }}
               disabled
             />

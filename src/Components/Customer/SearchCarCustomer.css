@@ -1,3 +1,8 @@
+.searchCarCustomer {
+    display:flex;
+    width: 100%;
+    minWidth: 100%;
+}
 .search {
   padding: 10px;
   display: flex;
@@ -5,7 +10,7 @@
   border-radius: 25px;
   height: 20px;
   width: 500px;
-  margin-left: 150px;
+  margin-left: 25%;
   margin-top: 10px;
 }
 .TopBar {
@@ -80,7 +85,7 @@
 }
 .carInformation {
   display: flex;
-  margin-left: 50px;
+  margin-left: 5%;
 }
 .carInformation > img {
   height: 200px;
@@ -93,6 +98,7 @@
 .carScreen {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 .callButton {
   display: flex;

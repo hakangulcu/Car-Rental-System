@@ -14,18 +14,24 @@ import Login from "./Components/LoginOut/Login";
 import SignUp from "./Components/LoginOut/SignUp";
 import MainPage from "./Components/Customer/MainPage";
 import Header from "./Components/Header";
+import { useMediaQuery } from 'react-responsive';
 import CustomerProfile from "./Components/Customer/CustomerProfile";
 import SearchCarCustomer from "./Components/Customer/SearchCarCustomer";
 import CreateEmployeePage from "./Components/CreateEmployee/CreateEmployeePage";
 import AddCarPage from "./Components/Car/AddCarPage";
 import ManagerMainPage from "./Components/Manager/ManagerMainPage";
 import EmployeeProfile from "./Components/Employee/EmployeeProfile";
+import CarsInformation from "./Components/Manager/CarsInformation";
+import EmployeeInformation from "./Components/Manager/EmployeeInformation"
 import Error from "./Components/Error";
+import useWindowSize from "./useWindowSize"
+
 
 /*<Login />  <SignUp /> <MainPage />  <CustomerProfile /> 
       <SearchCarCustomer /> <CreateEmployeePage /> 
       <AddCarPage /> <ManagerMainPage />  <EmployeeProfile />*/
-
+      
+      
 function App() {
   return (
     <Router>
@@ -41,6 +47,13 @@ function App() {
         <Route path="*" element={<Error />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/CustomerProfile" element={<CustomerProfile />} />
+        <Route path="/SearchCarCustomer" element={<SearchCarCustomer />} />
+        <Route path="/AddCarPage" element={<AddCarPage />} />
+        <Route path="/CreateEmployeePage" element={<CreateEmployeePage />} />
+        <Route path="/EmployeeProfile" element={<EmployeeProfile />} />
+        <Route path="/CarsInformation" element={<CarsInformation />} />
+        <Route path="/EmployeeInformation" element={<EmployeeInformation />} />
+        <Route path="/ManagerMainPage" element={<ManagerMainPage />} />
       </Routes>
     </Router>
   );

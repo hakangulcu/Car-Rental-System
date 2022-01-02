@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Popup from "../popUp/Popup";
 import bmwI8 from "../../images/bmw-i8.png";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function CustomerProfile() {
   const [error, setError] = useState(null);
@@ -35,6 +36,7 @@ function CustomerProfile() {
 
   let customerEmail = localStorage.getItem("customerEmail");
   let customerPassword = localStorage.getItem("customerPassword");
+  let navigate = useNavigate();
 
   useEffect(() => {
     let customerEmail = localStorage.getItem("customerEmail");
@@ -47,7 +49,6 @@ function CustomerProfile() {
         .then(
           (result) => {
             setIsLoaded(true);
-            console.log(result.body);
             result.body &&
               Object.keys(result.body).map((key) => {
                 let properties = result.body[key];
@@ -89,18 +90,21 @@ function CustomerProfile() {
   const handleChangePassword = (e) => {
     if (customerPassword === oldPassword) {
       fetch(
-        `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/changepassword?email=${customerEmail}&old_password=123&new_password=${newPassword}`
+        `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/changepassword?email=${customerEmail}&old_password=${oldPassword}&new_password=${newPassword}`
       )
         .then((res) => res.json())
         .then(
           (result) => {
             setIsLoaded(true);
+
             if (result.body["message"] === "executionTrue") {
               setMessage("Password Change is Successfull");
+              localStorage.setItem("customerPassword", newPassword);
+              setOldPassword("");
+              setNewPassword("");
               clickHandler();
             } else if (result.body["message"] === "executionFalse") {
               setMessage("Password Change is Unsuccessfull !!!!!!!");
-              console.log(message);
               clickHandler();
             } else {
               alert("Database Connection Get Error");
@@ -113,7 +117,6 @@ function CustomerProfile() {
         );
     } else {
       setMessage("Old password is wrong");
-      console.log(message);
       clickHandler();
     }
   };
@@ -138,7 +141,7 @@ function CustomerProfile() {
   };
 
   return (
-    <div className="customer-profile" id = "customerProfileCSS">
+    <div className="customer-profile" id="customerProfileCSS">
       <div className="profile-image" style={{ marginTop: "3%" }}>
         <img src={profileImage} alt="" />
         <br></br>

@@ -113,12 +113,14 @@ function CreateEmployeePage() {
             );
         } else {
           fetch(
-            `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/addemployeetobranch?name=${person.name}&surname=${person.surname}&date=${person.birthDate}&national_id=${person.nationalId}&email=${person.email}&password=${person.password}&address=${person.address}&contact_number=${person.contactNumber}&gender=${person.gender}&salary=${person.salary}&allowed_leave_number=${person.allowedLeaveNumber}&work_hours_per_day=${person.workHoursPerDay}&branch_name=${branchName}&shift_hours=${person.shiftHours}`
+            `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/adddrivertobranch?name=${person.name}&surname=${person.surname}&date=${person.birthDate}&national_id=${person.nationalId}&gender=${person.gender}&email=${person.email}&password=${person.password}&address=${person.address}&contact_number=${person.contactNumber}&salary=${person.salary}&allowed_leave_number=${person.allowedLeaveNumber}&work_hours_per_day=${person.workHoursPerDay}&branch_name=${branchName}&shift_hours=${person.shiftHours}
+            `
           )
             .then((response) => response.json())
             .then(
               (result) => {
                 setIsLoaded(true);
+                console.log(result.body);
                 if (result.body["message"] === "executionTrue") {
                   setMessage("Driver Creation is Successfull");
                   clickHandler();

@@ -25,6 +25,7 @@ import CarsInformation from "./Components/Manager/CarsInformation";
 import EmployeeInformation from "./Components/Manager/EmployeeInformation";
 import Error from "./Components/Error";
 import useWindowSize from "./useWindowSize";
+import AdminPage from "./Components/Admin/AdminPage";
 
 /*<Login />  <SignUp /> <MainPage />  <CustomerProfile /> 
       <SearchCarCustomer /> <CreateEmployeePage /> 
@@ -53,6 +54,7 @@ function App() {
         <Route path="/EmployeeInformation" element={<EmployeeInformation />} />
         <Route path="/ManagerMainPage" element={<ManagerMainPage />} />
         <Route path="/MainPage" element={<MainPage />} />
+        <Route path="/AdminPage" element={<AdminPage />} />
       </Routes>
     </Router>
   );

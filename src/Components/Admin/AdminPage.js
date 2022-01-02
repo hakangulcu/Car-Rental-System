@@ -157,7 +157,7 @@ function SignUp() {
                   size="lg"
                   type="submit"
                 >
-                  Create
+                  Add
                 </Button>
              
             </div>
@@ -218,7 +218,7 @@ function SignUp() {
                   size="lg"
                   type="submit"
                 >
-                  Create
+                  Add
                 </Button>
             </div>
           </Col>

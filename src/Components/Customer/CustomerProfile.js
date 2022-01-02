@@ -22,6 +22,7 @@ function CustomerProfile() {
   const [message, setMessage] = useState("");
   const [popUp, setPopUp] = useState(false);
   const [editPopUp, setEditPopUp] = useState(false);
+  const [nationalId, setNationalId] = useState("");
   const [person, setPerson] = useState({
     name: "",
     surname: "",
@@ -41,6 +42,7 @@ function CustomerProfile() {
   useEffect(() => {
     let customerEmail = localStorage.getItem("customerEmail");
     let customerPassword = localStorage.getItem("customerPassword");
+
     const getProfileProperties = (e) => {
       fetch(
         `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/customerprofile?email=${customerEmail}`
@@ -72,10 +74,53 @@ function CustomerProfile() {
         );
     };
     getProfileProperties();
-  }, []);
+    const getNationalId = (e) => {
+      fetch(
+        `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getnationalidofcustomer?email=${customerEmail}
+  
+      `
+      )
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            setIsLoaded(true);
+            setNationalId(result.body["national_id"]);
+          },
+          (error) => {
+            setIsLoaded(true);
+            setError(error);
+          }
+        );
+    };
+    getNationalId();
+  }, [nationalId]);
 
   function handleSubmit(event) {
     event.preventDefault();
+    fetch(
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/changeinfocustomer?address=${person.address}&birth_date=${person.birth_date}&contact_number=${person.contact_number}&email=${person.email}&given_date=${person.given_date}&license_type=${person.license_type}&name=${person.name}&national_id=${nationalId}&surname=${person.surname}
+      `
+    )
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          if (result.body["message"] === "executionTrue") {
+            setMessage("Profile Change is Successfull");
+            localStorage.setItem("customerEmail", person.email);
+            clickHandler();
+          } else if (result.body["message"] === "executionFalse") {
+            setMessage("Profile Change is Unsuccessfull !!!!!!!");
+            clickHandler();
+          } else {
+            alert("Database Connection Get Error");
+          }
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
   }
 
   const handleChange = (e) => {
@@ -178,7 +223,7 @@ function CustomerProfile() {
       </div>
 
       <div className="profile-information" style={{ marginTop: "5%" }}>
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <Form.Group size="lg" controlId="name">
             <Form.Control
               autoFocus
@@ -221,8 +266,8 @@ function CustomerProfile() {
               type="text"
               name="account_status"
               value={person.account_status}
-              placeholder="Account Status"
-              onChange={handleChange}
+              disabled={true}
+              placeholder="person.account_status"
               style={{ marginTop: "20px" }}
             />
           </Form.Group>
@@ -241,6 +286,7 @@ function CustomerProfile() {
             </label>
 
             <DatePicker
+              readOnly={true}
               selected={dateBirth}
               dateFormat={"dd/MM/yyyy"}
               onChange={(date) => setDateBirth(date)}
@@ -272,6 +318,7 @@ function CustomerProfile() {
             </label>
             <br />
             <DatePicker
+              readOnly={true}
               selected={licenceDate}
               dateFormat={"dd/MM/yyyy"}
               onChange={(date) => setLicenceDate(date)}
@@ -301,7 +348,11 @@ function CustomerProfile() {
             />
           </Form.Group>
           <br></br>
-          <Button variant="secondary" style={{ backgroundColor: "red" }}>
+          <Button
+            variant="secondary"
+            style={{ backgroundColor: "red" }}
+            onClick={handleSubmit}
+          >
             Save Changes
           </Button>
         </Form>

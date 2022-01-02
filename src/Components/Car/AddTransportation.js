@@ -7,8 +7,13 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Popup from "../popUp/Popup";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Input } from "antd";
+import { Select } from "antd";
+const { Search } = Input;
 
-function AddCarPage() {
+const { Option } = Select;
+
+function AddTransportation() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [message, setMessage] = useState("");
@@ -16,20 +21,13 @@ function AddCarPage() {
   const [car, setCar] = useState({
     brand: "",
     model: "",
-    color: "",
-    currentKm: "",
     plate: "",
-    fee: "",
     permitSerialNumber: "",
     insuranceSerialNumber: "",
-    carCondition: "",
-    fuelConsuptionType: "",
-    fuelConsuptionRate: "",
     seatingCapacity: "",
-    productionYear: "",
-    description: "",
-    deposit: "",
-    transmissionType: "",
+    kmPrice: "",
+    vehicleType: "",
+    treat: "",
   });
   const [branchName, setBranchName] = useState("");
   const [popUp, setPopUp] = useState(false);
@@ -56,27 +54,32 @@ function AddCarPage() {
     };
     getBranchName();
   }, []);
+  const handleChangeTransportationVehicle = (e) => {
+    setCar((prevValues) => {
+      return {
+        ...prevValues,
+        vehicleType:
+          e === "business_XL"
+            ? "business_XL"
+            : e === "taxi"
+            ? "taxi"
+            : "ride_XL",
+      };
+    });
+  };
   function handleSubmit(event) {
     if (
       car.brand.length > 0 &&
       car.model.length > 0 &&
-      car.color.length > 0 &&
-      car.currentKm.length > 0 &&
       car.plate.length > 0 &&
-      car.fee.length > 0 &&
       car.permitSerialNumber.length > 0 &&
       car.insuranceSerialNumber.length > 0 &&
-      car.carCondition.length > 0 &&
-      car.fuelConsuptionRate.length > 0 &&
-      car.fuelConsuptionType.length > 0 &&
       car.seatingCapacity.length > 0 &&
-      car.productionYear.length > 0 &&
-      car.description.length > 0 &&
-      car.deposit.length > 0 &&
-      car.transmissionType.length > 0
+      car.kmPrice.length > 0
     ) {
       fetch(
-        `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/addcartobranch?brand_name=${car.brand}&model_name=${car.model}&current_km_value=${car.currentKm}&plate=${car.plate}&permit_serial_number=${car.permitSerialNumber}&insurance_serial_number=${car.insuranceSerialNumber}&car_condition=${car.carCondition}&color=${car.color}&fuel_consumption_type=${car.fuelConsuptionType}&fuel_consumption_rate=${car.fuelConsuptionRate}&seating_capacity=${car.seatingCapacity}&production_year=${car.productionYear}&description=${car.description}&car_daily_fee=${car.fee}&car_deposit=${car.deposit}&transmission_type=${car.transmissionType}&branch_name=${branchName}
+        `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/addtransportationvehicletobranch?plate=${car.plate}&permit_serial_number=${car.permitSerialNumber}&insurance_serial_number=${car.insuranceSerialNumber}&brand_name=${car.brand}&model_name=${car.model}&capacity=${car.seatingCapacity}&km_price=${car.kmPrice}&vehicle_type=${car.vehicleType}&branch_name=${branchName}&treat=${car.treat}
+
         `
       )
         .then((response) => response.json())
@@ -84,11 +87,11 @@ function AddCarPage() {
           (result) => {
             setIsLoaded(true);
             if (result.body["message"] === "executionTrue") {
-              setMessage("Car  Creation is Successfull");
+              setMessage("Transportation Vehicle Creation is Successfull");
               clickHandler();
               setTimeout(() => navigate("/ManagerMainPage"), 2000);
             } else if (result.body["message"] === "executionFalse") {
-              setMessage("Car Creation is not Successfull");
+              setMessage("Transportation Vehicle Creation is not Successfull");
               clickHandler();
             } else {
               setMessage("Database connection get error ");
@@ -160,30 +163,6 @@ function AddCarPage() {
               />
             </Form.Group>
 
-            <Form.Group size="lg" controlId="color">
-              <Form.Control
-                autoFocus
-                type="text"
-                name="color"
-                value={car.color}
-                placeholder="Color"
-                onChange={handleChange}
-                style={{ marginTop: "20px" }}
-              />
-            </Form.Group>
-
-            <Form.Group size="lg" controlId="currentKm">
-              <Form.Control
-                autoFocus
-                type="number"
-                name="currentKm"
-                value={car.currentKm}
-                placeholder="Current Km"
-                onChange={handleChange}
-                style={{ marginTop: "20px" }}
-              />
-            </Form.Group>
-
             <Form.Group size="lg" controlId="plate">
               <Form.Control
                 autoFocus
@@ -195,16 +174,7 @@ function AddCarPage() {
                 style={{ marginTop: "20px" }}
               />
             </Form.Group>
-            <Form.Group size="lg" controlId="Current Fee">
-              <Form.Control
-                type="number"
-                value={car.fee}
-                name="fee"
-                placeholder="Current Fee"
-                onChange={handleChange}
-                style={{ marginTop: "20px" }}
-              />
-            </Form.Group>
+
             <Form.Group size="lg" controlId="permitSerialNumber">
               <Form.Control
                 type="number"
@@ -225,16 +195,6 @@ function AddCarPage() {
                 style={{ marginTop: "20px", marginBottom: "10px" }}
               />
             </Form.Group>
-            <Form.Group size="lg" controlId="carCondition">
-              <Form.Control
-                type="text"
-                name="carCondition"
-                value={car.carCondition}
-                placeholder="Car Condition "
-                onChange={handleChange}
-                style={{ marginTop: "20px", marginBottom: "10px" }}
-              />
-            </Form.Group>
           </Form>
         </div>
 
@@ -251,25 +211,14 @@ function AddCarPage() {
                 style={{ marginTop: "5px" }}
               />
             </Form.Group>
-            <Form.Group size="lg" controlId="fuelConsuptionType">
-              <Form.Control
-                autoFocus
-                type="text"
-                name="fuelConsuptionType"
-                value={car.fuelConsuptionType}
-                placeholder="Fuel Consuption Type"
-                onChange={handleChange}
-                style={{ marginTop: "5px" }}
-              />
-            </Form.Group>
 
-            <Form.Group size="lg" controlId="fuelConsuptionRate">
+            <Form.Group size="lg" controlId="kmPrice">
               <Form.Control
                 autoFocus
-                type="text"
-                name="fuelConsuptionRate"
-                value={car.fuelConsuptionRate}
-                placeholder="Fuel Consuption Rate"
+                type="number"
+                name="kmPrice"
+                value={car.kmPrice}
+                placeholder="Kilometer Price"
                 onChange={handleChange}
                 style={{ marginTop: "20px" }}
               />
@@ -286,64 +235,32 @@ function AddCarPage() {
                 style={{ marginTop: "20px" }}
               />
             </Form.Group>
-
-            <Form.Group size="lg" controlId="productionYear">
-              <Form.Control
-                autoFocus
-                type="number"
-                name="productionYear"
-                value={car.productionYear}
-                placeholder="Production Year"
-                onChange={handleChange}
-                style={{ marginTop: "20px" }}
-              />
-            </Form.Group>
-
-            <Form.Group size="lg" controlId="description">
+            <Form.Group size="lg" controlId="treat">
               <Form.Control
                 autoFocus
                 type="text"
-                name="description"
-                value={car.description}
-                placeholder="Description"
+                name="treat"
+                value={car.treat}
+                placeholder="Treat"
                 onChange={handleChange}
                 style={{ marginTop: "20px" }}
               />
             </Form.Group>
-            <Form.Group size="lg" controlId="deposit">
-              <Form.Control
-                type="number"
-                value={car.deposit}
-                name="deposit"
-                placeholder="Deposit"
-                onChange={handleChange}
-                style={{ marginTop: "20px" }}
-              />
-            </Form.Group>
-            <Form.Group size="lg" controlId="transmissionType">
-              <Form.Control
-                type="text"
-                name="transmissionType"
-                value={car.transmissionType}
-                placeholder="Transmission Type"
-                onChange={handleChange}
-                style={{ marginTop: "20px", marginBottom: "10px" }}
-              />
-            </Form.Group>
-            <div className="AddButton" onClick={handleSubmit}>
-              <Button
-                variant="secondary"
-                style={{ backgroundColor: "black", width: "150px" }}
+
+            <div style={{ marginTop: "20px" }}>
+              <Select
+                defaultValue="Business-XL"
+                style={{ width: 200 }}
+                name="vehicleType"
+                onChange={handleChangeTransportationVehicle}
               >
-                Create Car
-              </Button>
+                <Option value="business_XL">Business-XL</Option>
+                <Option value="taxi">Taxi</Option>
+                <Option value="ride_XL">Ride-XL</Option>
+              </Select>
             </div>
-            <div
-              className="AddButton"
-              onClick={() => {
-                navigate("/AddTransportation");
-              }}
-            >
+
+            <div className="AddButton" onClick={handleSubmit}>
               <Button
                 variant="secondary"
                 style={{ backgroundColor: "black", width: "150px" }}
@@ -352,6 +269,19 @@ function AddCarPage() {
               </Button>
             </div>
           </Form>
+          <div
+            className="AddButton"
+            onClick={() => {
+              navigate("/AddCarPage");
+            }}
+          >
+            <Button
+              variant="secondary"
+              style={{ backgroundColor: "black", width: "150px" }}
+            >
+              Create Car
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -360,4 +290,4 @@ function AddCarPage() {
   );
 }
 
-export default AddCarPage;
+export default AddTransportation;

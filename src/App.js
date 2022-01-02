@@ -19,6 +19,7 @@ import CustomerProfile from "./Components/Customer/CustomerProfile";
 import SearchCarCustomer from "./Components/Customer/SearchCarCustomer";
 import CreateEmployeePage from "./Components/CreateEmployee/CreateEmployeePage";
 import AddCarPage from "./Components/Car/AddCarPage";
+import AddTransportation from "./Components/Car/AddTransportation";
 import ManagerMainPage from "./Components/Manager/ManagerMainPage";
 import EmployeeProfile from "./Components/Employee/EmployeeProfile";
 import CarsInformation from "./Components/Manager/CarsInformation";
@@ -55,6 +56,7 @@ function App() {
         <Route path="/ManagerMainPage" element={<ManagerMainPage />} />
         <Route path="/MainPage" element={<MainPage />} />
         <Route path="/AdminPage" element={<AdminPage />} />
+        <Route path="/AddTransportation" element={<AddTransportation />} />
       </Routes>
     </Router>
   );

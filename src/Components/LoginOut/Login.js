@@ -8,9 +8,10 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import img1 from "../../images/carRental.jpg";
-import SwitchButton from "../Switch/SwitchButton";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "../popUp/Popup";
+import SwitchButton from "../Switch/SwitchButton";
 
 import "./Login.css";
 import getPlacements from "antd/lib/tooltip/placements";
@@ -125,11 +126,12 @@ function Login(props) {
               }}
             />
           </Col>
-          {/*<SwitchButton /> */}
+
           <Col
             lg={6}
             style={{ alignItems: "center", flext: "1", marginTop: "200px" }}
           >
+            <SwitchButton />
             <div className="Login">
               <Form onSubmit={handleSubmit}>
                 <Form.Group size="lg" controlId="email">

@@ -41,6 +41,7 @@ function CreateEmployeePage() {
     employeeType: "employee",
     gender: "female",
   });
+  let branchName;
 
   function handleSubmit(event) {
     if (
@@ -63,7 +64,30 @@ function CreateEmployeePage() {
         person.birthDate = `${dateBirth.getFullYear()}-${
           dateBirth.getMonth() + 1
         }-${dateBirth.getDate()}`;
+        let managerEmail = localStorage.getItem("managerEmail");
+        fetch(
+          `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getmanagersbranch?email=${managerEmail}
+          `
+        )
+          .then((response) => response.json())
+          .then(
+            (result) => {
+              setIsLoaded(true);
+              if (result.body["message"] === "executionTrue") {
+                branchName = result.body["branch_name"];
+              } else if (result.body["message"] === "executionFalse") {
+                setMessage("Database connection get error executionFalse ");
+              } else {
+                setMessage("Database connection get error ");
+              }
+            },
+            (error) => {
+              setIsLoaded(true);
+              setError(error);
+            }
+          );
 
+        person.branch = branchName;
         if (person.employeeType === "employee") {
           fetch(
             `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/addemployeetobranch?name=${person.name}&surname=${person.surname}&date=${person.birthDate}&national_id=${person.nationalId}&email=${person.email}&password=${person.password}&address=${person.address}&contact_number=${person.contactNumber}&gender=${person.gender}&salary=${person.salary}&allowed_leave_number=${person.allowedLeaveNumber}&work_hours_per_day=${person.workHoursPerDay}&branch_name=${person.branch}`
@@ -284,7 +308,7 @@ function CreateEmployeePage() {
                 name="branch"
                 value={person.branch}
                 placeholder="Branch"
-                onChange={handleChange}
+                disabled={true}
                 style={{ marginTop: "5px" }}
               />
             </Form.Group>

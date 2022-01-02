@@ -6,9 +6,7 @@ const MySwitch = () => {
   let history = useHistory();
   let location = useLocation();
 
-  const [checked, setChecked] = useState(
-    location.pathname.includes("campaign")
-  );
+  const [checked, setChecked] = useState(location.pathname.includes("login"));
 
   const handleChange = (checked) => {
     history.push(checked ? "/login" : "/signUp");

@@ -1,21 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import "./switch.css";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import Switch from "react-switch";
 
 function SwitchButton() {
-  //let history = useNavigate();
-  let location = useLocation();
+  let navigate = useNavigate();
 
   const LoginHandler = (e) => {
-    //e.target.style.backgroundColor = "red";
-    //history.push("/login");
+    navigate("/login");
   };
 
   const SignUpHandler = (e) => {
-    //e.target.style.backgroundColor = "black";
-    //history.push("/signUp");
+    navigate("/signUp");
   };
 
   return (

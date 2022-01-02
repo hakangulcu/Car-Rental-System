@@ -116,6 +116,7 @@ function SignUp() {
 
   return (
     <div class="signUpCSS">
+      <SwitchButton />
       <Container>
         <Row>
           {/*<SwitchButton /> */}

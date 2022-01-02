@@ -120,8 +120,8 @@ function Login(props) {
               src={img1}
               alt=""
               style={{
-                width: "600px",
-                height: "500px",
+                width: "80%",
+                height: "80%",
                 marginTop: "250px",
               }}
             />
@@ -131,9 +131,10 @@ function Login(props) {
             lg={6}
             style={{ alignItems: "center", flext: "1", marginTop: "200px" }}
           >
-            <SwitchButton />
+           
             <div className="Login">
-              <Form onSubmit={handleSubmit}>
+            <SwitchButton />
+              <Form onSubmit={handleSubmit} style={{marginTop:"10%"}}>
                 <Form.Group size="lg" controlId="email">
                   <Form.Control
                     autoFocus

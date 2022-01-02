@@ -17,7 +17,7 @@ function SwitchButton() {
   };
 
   return (
-    <div className="buttons" style={{ marginRight: "40%", marginBottom: "2%" }}>
+    <div className="buttons" style={{  marginTop:"3%", marginBottom:"-1%", marginLeft:"10%", marginRight:"25%"}}>
       <button className="login-btn" onClick={LoginHandler}>
         Login
       </button>

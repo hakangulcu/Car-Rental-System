@@ -115,13 +115,16 @@ function SignUp() {
   };
 
   return (
-    <div class="signUpCSS">
-      <SwitchButton />
+    <div class="signUpCSS" >
+      
       <Container>
+        
         <Row>
           {/*<SwitchButton /> */}
-          <Col style={{ margin: "auto", width: "50%", padding: "10px" }}>
+          <SwitchButton style={{marginTop:"30px"}}/>
+          <Col style={{ }}>
             <div className="Login">
+              
               <Form onSubmit={handleSubmit}>
                 <Form.Group size="lg" controlId="name">
                   <Form.Control

@@ -1,13 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import "./CreateEmployeePage.css";
 import { Radio } from "antd";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "../popUp/Popup";
 import { Input } from "antd";
 import { Select } from "antd";
@@ -22,7 +23,7 @@ function CreateEmployeePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [popUp, setPopUp] = useState(false);
   const [message, setMessage] = useState("");
-
+  const [branchName, setBranchName] = useState("");
   const [person, setPerson] = useState({
     name: "",
     surname: "",
@@ -33,7 +34,6 @@ function CreateEmployeePage() {
     confirmPassword: "",
     contactNumber: "",
     address: "",
-    branch: "",
     salary: "",
     shiftHours: "",
     allowedLeaveNumber: "",
@@ -41,7 +41,30 @@ function CreateEmployeePage() {
     employeeType: "employee",
     gender: "female",
   });
-  let branchName;
+
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    const getBranchName = () => {
+      let managerEmail = localStorage.getItem("managerEmail");
+      fetch(
+        `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getmanagersbranch?email=${managerEmail}
+        `
+      )
+        .then((response) => response.json())
+        .then(
+          (result) => {
+            setIsLoaded(true);
+            setBranchName(result.body["branch_name"]);
+          },
+          (error) => {
+            setIsLoaded(true);
+            setError(error);
+          }
+        );
+    };
+    getBranchName();
+  }, []);
 
   function handleSubmit(event) {
     if (
@@ -54,43 +77,18 @@ function CreateEmployeePage() {
       person.address.length > 0 &&
       person.contactNumber.length > 0 &&
       person.salary.length > 0 &&
-      person.shiftHours.length > 0 &&
       person.allowedLeaveNumber.length > 0 &&
-      person.workHoursPerDay.length > 0 &&
-      person.branch.length > 0
+      person.workHoursPerDay.length > 0
     ) {
       if (person.password === person.confirmPassword) {
         event.preventDefault();
         person.birthDate = `${dateBirth.getFullYear()}-${
           dateBirth.getMonth() + 1
         }-${dateBirth.getDate()}`;
-        let managerEmail = localStorage.getItem("managerEmail");
-        fetch(
-          `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getmanagersbranch?email=${managerEmail}
-          `
-        )
-          .then((response) => response.json())
-          .then(
-            (result) => {
-              setIsLoaded(true);
-              if (result.body["message"] === "executionTrue") {
-                branchName = result.body["branch_name"];
-              } else if (result.body["message"] === "executionFalse") {
-                setMessage("Database connection get error executionFalse ");
-              } else {
-                setMessage("Database connection get error ");
-              }
-            },
-            (error) => {
-              setIsLoaded(true);
-              setError(error);
-            }
-          );
 
-        person.branch = branchName;
         if (person.employeeType === "employee") {
           fetch(
-            `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/addemployeetobranch?name=${person.name}&surname=${person.surname}&date=${person.birthDate}&national_id=${person.nationalId}&email=${person.email}&password=${person.password}&address=${person.address}&contact_number=${person.contactNumber}&gender=${person.gender}&salary=${person.salary}&allowed_leave_number=${person.allowedLeaveNumber}&work_hours_per_day=${person.workHoursPerDay}&branch_name=${person.branch}`
+            `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/addemployeetobranch?name=${person.name}&surname=${person.surname}&date=${person.birthDate}&national_id=${person.nationalId}&email=${person.email}&password=${person.password}&address=${person.address}&contact_number=${person.contactNumber}&gender=${person.gender}&salary=${person.salary}&allowed_leave_number=${person.allowedLeaveNumber}&work_hours_per_day=${person.workHoursPerDay}&branch_name=${branchName}`
           )
             .then((response) => response.json())
             .then(
@@ -99,6 +97,7 @@ function CreateEmployeePage() {
                 if (result.body["message"] === "executionTrue") {
                   setMessage("Employee Creation is Successfull");
                   clickHandler();
+                  setTimeout(() => navigate("/ManagerMainPage"), 2000);
                 } else if (result.body["message"] === "executionFalse") {
                   setMessage("Employee Creation is not Successfull");
                   clickHandler();
@@ -114,17 +113,18 @@ function CreateEmployeePage() {
             );
         } else {
           fetch(
-            `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/addemployeetobranch?name=${person.name}&surname=${person.surname}&date=${person.birthDate}&national_id=${person.nationalId}&email=${person.email}&password=${person.password}&address=${person.address}&contact_number=${person.contactNumber}&gender=${person.gender}&salary=${person.salary}&allowed_leave_number=${person.allowedLeaveNumber}&work_hours_per_day=${person.workHoursPerDay}&branch_name=${person.branch}&shift_hours=${person.shiftHours}`
+            `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/addemployeetobranch?name=${person.name}&surname=${person.surname}&date=${person.birthDate}&national_id=${person.nationalId}&email=${person.email}&password=${person.password}&address=${person.address}&contact_number=${person.contactNumber}&gender=${person.gender}&salary=${person.salary}&allowed_leave_number=${person.allowedLeaveNumber}&work_hours_per_day=${person.workHoursPerDay}&branch_name=${branchName}&shift_hours=${person.shiftHours}`
           )
             .then((response) => response.json())
             .then(
               (result) => {
                 setIsLoaded(true);
                 if (result.body["message"] === "executionTrue") {
-                  setMessage("Employee Creation is Successfull");
+                  setMessage("Driver Creation is Successfull");
                   clickHandler();
+                  setTimeout(() => navigate("/ManagerMainPage"), 2000);
                 } else if (result.body["message"] === "executionFalse") {
-                  setMessage("Employee Creation is not Successfull");
+                  setMessage("Driver Creation is not Successfull");
                   clickHandler();
                 } else {
                   setMessage("Database connection get error ");
@@ -306,8 +306,8 @@ function CreateEmployeePage() {
                 autoFocus
                 type="text"
                 name="branch"
-                value={person.branch}
-                placeholder="Branch"
+                value={branchName}
+                placeholder={branchName}
                 disabled={true}
                 style={{ marginTop: "5px" }}
               />

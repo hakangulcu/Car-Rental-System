@@ -23,6 +23,7 @@ function CustomerProfile() {
   const [popUp, setPopUp] = useState(false);
   const [editPopUp, setEditPopUp] = useState(false);
   const [nationalId, setNationalId] = useState("");
+  const [rentalInformations, setRentalInformations] = useState([]);
   const [person, setPerson] = useState({
     name: "",
     surname: "",
@@ -37,6 +38,7 @@ function CustomerProfile() {
 
   let customerEmail = localStorage.getItem("customerEmail");
   let customerPassword = localStorage.getItem("customerPassword");
+  let customerId = localStorage.getItem("customerId");
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -93,7 +95,33 @@ function CustomerProfile() {
         );
     };
     getNationalId();
-  }, [nationalId]);
+    fetch(
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getrentalinformations?customer_id=${customerId}`
+    )
+      .then((response) => response.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          if (result.body.rentals) {
+            const myRentals = result.body.rentals.map((rental) => ({
+              brandName: rental[0],
+              modelName: rental[1],
+              totalFee: rental[2],
+              startday: rental[3],
+              endDay: rental[4],
+              afterCarRentCondition: rental[5],
+              feedback: rental[6],
+              branchName: rental[7],
+            }));
+            setRentalInformations(myRentals);
+          }
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, [nationalId, customerId]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -370,68 +398,55 @@ function CustomerProfile() {
         >
           Previous Rental Information
         </h3>
-        <div className="carInformation">
-          <div className="image">
-            <img
-              src={bmwI8}
-              alt=""
-              style={{
-                height: "100%",
-                width: "100%",
-                display: "block",
-                margin: "auto",
-              }}
-            />
-          </div>
-          <div className="information" style={{ marginLeft: "5%" }}>
-            Car Brand
-            <br />
-            Car Model
-            <br />
-            Color
-            <br />
-            Total Fee
-            <br />
-            Rented/Transported Dates
-            <br />
-            Car Rental Condition
-            <br />
-            Feedback
-            <br />
-            Rental Type
-          </div>
-        </div>
-        <div className="carInformation">
-          <div className="image">
-            <img
-              src={bmwI8}
-              alt=""
-              style={{
-                height: "100%",
-                width: "100%",
-                display: "block",
-                margin: "auto",
-              }}
-            />
-          </div>
-          <div className="information" style={{ marginLeft: "5%" }}>
-            Car Brand
-            <br />
-            Car Model
-            <br />
-            Color
-            <br />
-            Total Fee
-            <br />
-            Rented/Transported Dates
-            <br />
-            Car Rental Condition
-            <br />
-            Feedback
-            <br />
-            Rental Type
-          </div>
-        </div>
+        {rentalInformations.length > 0 ? (
+          rentalInformations &&
+          rentalInformations.map((rental) => (
+            <div className="carInformation">
+              <div className="image">
+                <img
+                  src={bmwI8}
+                  alt=""
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "block",
+                    margin: "auto",
+                  }}
+                />
+              </div>
+              <div className="information" style={{ marginLeft: "5%" }}>
+                Car Brand {rental.brandName}
+                <br />
+                Car Model {rental.modelName}
+                <br />
+                Total Fee {rental.totalFee}
+                <br />
+                Start Day {rental.startday}
+                <br />
+                End Day {rental.endDay}
+                <br />
+                Car Rental Condition {rental.afterCarRentCondition}
+                <br />
+                Feedback {rental.feedback}
+                <br />
+                Branch Name {rental.branchName}
+              </div>
+            </div>
+          ))
+        ) : (
+          <label
+            style={{
+              marginTop: "5px",
+              marginBottom: "5px",
+              marginLeft: "75px",
+              fontWeight: "bold",
+              color: "grey",
+              fontStyle: "italic",
+            }}
+          >
+            There is no previous rental information for this customer
+          </label>
+        )}
       </div>
       <Popup trigger={popUp} setPopUp={setPopUp} message={message} />
     </div>

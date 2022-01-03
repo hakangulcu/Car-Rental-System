@@ -72,31 +72,6 @@
   display: flex;
   align-items: center;
   font-weight: bold;
-  margin-left: 25px;
-  font-size: 12px;
-}
-
-.TransportationInformation {
-  display: flex;
-  flex: 0.5;
-  margin: auto;
-  width: 70%;
-  padding: 5%;
-}
-.TransportationInformationImage {
-  display: flex;
-  align-items: center;
-}
-.TransportationInformationImage > img {
-  width: 75%;
-  height: 50%;
-  display: flex;
-  align-items: center;
-}
-.TransportationInformationDetails {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  margin-left: 25px;
+  margin-left: 35px;
   font-size: 12px;
 }

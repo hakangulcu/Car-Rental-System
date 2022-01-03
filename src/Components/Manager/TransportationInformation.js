@@ -6,27 +6,27 @@ import { RightCircleOutlined } from "@ant-design/icons";
 
 function TransportationInformation() {
   return (
-    <div className="TransportationInformation">
-      <div className="TransportationImage">
-        <LeftCircleOutlined
+    <div className="CarsInformation">
+      <div className="CarImage">
+        {/* <LeftCircleOutlined
           style={{
             display: "flex",
             alignItems: "center",
             fontSize: "30px",
             marginLeft: "20px",
           }}
-        />
+        />*/}
         <img src="https://www.mercedes-benz.com.tr/passengercars/mercedes-benz-cars/models/amg-gt/roadster/_jcr_content/image.MQ6.2.2x.20200318130703.png" />
-        <RightCircleOutlined
+        {/*<RightCircleOutlined
           style={{
             display: "flex",
             alignItems: "center",
             fontSize: "30px",
           }}
-        />
+        /> */}
       </div>
 
-      <div className="TransportationDetails">
+      <div className="CarDetails">
         plate
         <br />
         permit_serial_number

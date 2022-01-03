@@ -17,13 +17,32 @@ function SwitchButton() {
   };
 
   return (
-    <div className="buttons" style={{  marginTop:"3%", marginBottom:"-1%", marginLeft:"10%", marginRight:"25%"}}>
-      <button className="login-btn" onClick={LoginHandler}>
-        Login
-      </button>
-      <button className="signUp-btn" onClick={SignUpHandler}>
-        Sign Up
-      </button>
+    <div
+      className="buttons"
+      style={{
+        marginTop: "3%",
+        marginBottom: "-1%",
+        marginLeft: "10%",
+        marginRight: "25%",
+      }}
+    >
+      {window.location.href === "http://localhost:3000/signUp" ? (
+        <button
+          style={{ backgroundColor: "black" }}
+          className="login-btn"
+          onClick={LoginHandler}
+        >
+          Login
+        </button>
+      ) : (
+        <button
+          style={{ backgroundColor: "black" }}
+          className="signUp-btn"
+          onClick={SignUpHandler}
+        >
+          Sign Up
+        </button>
+      )}
     </div>
   );
 }

@@ -4,11 +4,9 @@ import { React, useState } from "react";
 import Form from "react-bootstrap/Form";
 import "./ManagerMainPage.css";
 
-function EmployeeInformation() {
-  const [person, setPerson] = useState({
-    name: "",
-    surname: "",
-  });
+function EmployeeInformation(props) {
+  const { name, surname, email, status, employeeId } = props.employee;
+
   function handleSubmit(event) {
     event.preventDefault();
   }
@@ -32,7 +30,7 @@ function EmployeeInformation() {
               autoFocus
               type="text"
               name="name"
-              value={person.name}
+              value={name}
               placeholder="Name: "
               style={{ marginTop: "5px" }}
               disabled
@@ -44,30 +42,32 @@ function EmployeeInformation() {
               autoFocus
               type="text"
               name="surname"
-              value={person.surname}
+              value={surname}
               placeholder="Surname: "
               style={{ marginTop: "20px" }}
               disabled
             />
           </Form.Group>
+
           <Form.Group size="lg" controlId="email">
             <Form.Control
               autoFocus
               type="text"
               name="email"
-              value={person.email}
+              value={email}
               placeholder="Email: "
               style={{ marginTop: "20px" }}
               disabled
             />
           </Form.Group>
-          <Form.Group size="lg" controlId="branch">
+
+          <Form.Group size="lg" controlId="Employee Type">
             <Form.Control
               autoFocus
               type="text"
-              name="branch"
-              value={person.branch}
-              placeholder="Branch: "
+              name="employeeType"
+              value={status}
+              placeholder="Employee Type: "
               style={{ marginTop: "20px" }}
               disabled
             />

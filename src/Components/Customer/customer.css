@@ -23,6 +23,11 @@
     cursor: pointer;
     color: rgb(23, 159, 201);
   }
+  .logout-icon {
+    font-size: 40px;
+    cursor: pointer;
+    color: rgb(23, 159, 201);
+  }
   .advertisements {
     margin-top: 50px;
     display: flex;

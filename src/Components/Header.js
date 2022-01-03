@@ -6,6 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import { AiOutlineFileText } from "react-icons/ai";
 import { MdOutlineEmail } from "react-icons/md";
 import { BsPersonCircle } from "react-icons/bs";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Header() {
@@ -38,6 +39,15 @@ function Header() {
 
             <Nav.Link href="/CustomerProfile">
               <BsPersonCircle className="person-icon" />
+            </Nav.Link>
+
+            <Nav.Link
+              href="/login"
+              onClick={() => {
+                localStorage.clear();
+              }}
+            >
+              <RiLogoutBoxRLine className="text-icon" />
             </Nav.Link>
           </Nav>
         </Container>

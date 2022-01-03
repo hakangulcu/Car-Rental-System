@@ -12,11 +12,10 @@
   margin-top: 25px;
 }
 .CarsColumn {
-  display: flex;
+  display: inline-block;
   flex: 0.33;
   flex-direction: column;
   margin-top: 50px;
-  margin-left: 25px;
   height: 100vh;
   overflow-y: scroll;
 }

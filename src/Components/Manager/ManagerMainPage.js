@@ -82,7 +82,7 @@ function ManagerMainPage() {
       <div className="ManagerMainPageColumns">
         <div className="CarsColumn">
           {" "}
-          {cars && cars.map((car) => <CarsInformation car={car} />)}
+          {cars && cars.map((car) => <CarsInformation car={car}/>)}
         </div>
         <div className="TransportationColumn">
           {" "}

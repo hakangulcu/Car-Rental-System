@@ -14,7 +14,6 @@ function EmployeeInformation(props) {
   return (
     <div
       className="EmployeeInformation"
-      style={{ margin: "auto", width: "50%", padding: "10px" }}
     >
       <div
         className="nameSurname"
@@ -27,48 +26,52 @@ function EmployeeInformation(props) {
         <Form onSubmit={handleSubmit}>
           <Form.Group size="lg" controlId="name">
             <Form.Control
+              className="text-center"
               autoFocus
               type="text"
               name="name"
               value={name}
               placeholder="Name: "
-              style={{ marginTop: "5px" }}
+              style={{ marginTop: "5px"}}
               disabled
             />
           </Form.Group>
 
           <Form.Group size="lg" controlId="surname">
             <Form.Control
+              className="text-center"
               autoFocus
               type="text"
               name="surname"
               value={surname}
               placeholder="Surname: "
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "20px"}}
               disabled
             />
           </Form.Group>
 
           <Form.Group size="lg" controlId="email">
             <Form.Control
+              className="text-center"
               autoFocus
               type="text"
               name="email"
               value={email}
               placeholder="Email: "
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "20px"}}
               disabled
             />
           </Form.Group>
 
           <Form.Group size="lg" controlId="Employee Type">
             <Form.Control
+              className="text-center"
               autoFocus
               type="text"
               name="employeeType"
               value={status}
               placeholder="Employee Type: "
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "20px"}}
               disabled
             />
           </Form.Group>

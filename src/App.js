@@ -27,6 +27,8 @@ import EmployeeInformation from "./Components/Manager/EmployeeInformation";
 import Error from "./Components/Error";
 import useWindowSize from "./useWindowSize";
 import AdminPage from "./Components/Admin/AdminPage";
+import EmployeeMainPage from "./Components/Employee/EmployeeMainPage";
+import EmployeeCreateForm from "./Components/Employee/EmployeeCreateForm";
 
 /*<Login />  <SignUp /> <MainPage />  <CustomerProfile /> 
       <SearchCarCustomer /> <CreateEmployeePage /> 
@@ -58,6 +60,8 @@ function App() {
         <Route path="/MainPage" element={<MainPage />} />
         <Route path="/AdminPage" element={<AdminPage />} />
         <Route path="/AddTransportation" element={<AddTransportation />} />
+        <Route path="/EmployeeMainPage" element={<EmployeeMainPage />} />
+        <Route path="/EmployeeCreateForm" element={<EmployeeCreateForm />} />
       </Routes>
     </Router>
   );

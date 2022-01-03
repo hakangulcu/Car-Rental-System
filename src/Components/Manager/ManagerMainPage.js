@@ -66,14 +66,14 @@ function ManagerMainPage() {
       <div className="TopRow">
         <Button
           variant="secondary"
-          style={{ backgroundColor: "black" }}
+          style={{ backgroundColor: "black", marginBottom:"5%" }}
           href="/AddCarPage"
         >
           Add Car
         </Button>
         <Button
           variant="secondary"
-          style={{ backgroundColor: "green", marginLeft: "10px" }}
+          style={{ backgroundColor: "green", marginLeft: "10px",marginBottom:"5%" }}
           href="/CreateEmployeePage"
         >
           Create Employee
@@ -81,10 +81,12 @@ function ManagerMainPage() {
       </div>
       <div className="ManagerMainPageColumns">
         <div className="CarsColumn">
+        <h2 style={{width:"100%", textAlign:"center"}}>CARS</h2>
           {" "}
           {cars && cars.map((car) => <CarsInformation car={car}/>)}
         </div>
         <div className="TransportationColumn">
+          <h2 style={{width:"100%", textAlign:"center"}}> TRANSPORTATION VEHICLES</h2>
           {" "}
           <TransportationInformation />
           <TransportationInformation />
@@ -93,6 +95,9 @@ function ManagerMainPage() {
           <TransportationInformation />
         </div>
         <div className="Employees">
+          <h2 style={{width:"100%", textAlign:"center"}}> EMPLOYEES</h2>
+          <li style={{width:"100%", textAlign:"left", marginTop:"5%", marginLeft:"5%", color:"red", fontWeight:"bold"}}>Best Employee:<span style={{color:"black"}}>&nbsp;Hakan</span></li>
+          <li style={{width:"100%", textAlign:"left", marginTop:"5%", marginLeft:"5%", color:"red", fontWeight:"bold"}}>Worst Employee:<span style={{color:"black"}}>&nbsp;Berke</span></li>
           {" "}
           {employees &&
             employees.map((employee) => (

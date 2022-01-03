@@ -15,7 +15,6 @@
   display: inline-block;
   flex: 0.33;
   flex-direction: column;
-  margin-top: 50px;
   height: 100vh;
   overflow-y: scroll;
 }
@@ -23,7 +22,6 @@
   display: flex;
   flex: 0.33;
   flex-direction: column;
-  margin-top: 50px;
   margin-left: 25px;
   height: 100vh;
   overflow-y: scroll;
@@ -37,7 +35,6 @@
 .EmployeeInformation {
   display: flex;
   flex: 0.5;
-  margin-left: 50px;
   margin-top: 50px;
 }
 .EmployeeInformation > img {

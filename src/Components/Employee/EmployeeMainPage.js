@@ -34,18 +34,22 @@ function EmployeeMainPage() {
       .then((response) => response.json())
       .then((result) => {
         setIsLoaded(true);
-
+        console.log(result.body);
         if (result.body.requests) {
           const infos = result.body.requests.map((request) => ({
-            customerName: request[0],
-            customerSurname: request[1],
-            carBrand: request[2],
-            model: request[3],
-            startDate: request[4],
-            endDate: request[5],
-            customerNationalId: request[6],
-            customerLicense: request[7],
-            contactNumber: request[8],
+            employeeId: request[0],
+            customerId: request[1],
+            carId: request[2],
+            branchId: request[3],
+            customerName: request[4],
+            customerSurname: request[5],
+            carBrand: request[6],
+            model: request[7],
+            startDate: request[8],
+            endDate: request[9],
+            customerNationalId: request[10],
+            customerLicense: request[11],
+            contactNumber: request[12],
           }));
           setInfo(infos);
         }
@@ -81,9 +85,7 @@ function EmployeeMainPage() {
                     name="customerName"
                     value={inf.customerName}
                   >
-                    Customer Name:{" "}
-                    {inf.customerName.substring(0, 1).toUpperCase() +
-                      inf.customerName.substring(1, inf.customerName.length)}
+                    Customer Name: {inf.customerName}
                   </ListGroup.Item>
                   <ListGroup.Item
                     controlId="customerSurname"
@@ -92,12 +94,7 @@ function EmployeeMainPage() {
                     name="customerSurname"
                     value={inf.customerSurname}
                   >
-                    Customer Surname :{" "}
-                    {inf.customerSurname.substring(0, 1).toUpperCase() +
-                      inf.customerSurname.substring(
-                        1,
-                        inf.customerSurname.length
-                      )}
+                    Customer Surname : {inf.customerSurname}
                   </ListGroup.Item>
                   <ListGroup.Item
                     controlId="carBrand"
@@ -106,9 +103,7 @@ function EmployeeMainPage() {
                     name="carBrand"
                     value={inf.carBrand}
                   >
-                    Car Brand :{" "}
-                    {inf.carBrand.substring(0, 1).toUpperCase() +
-                      inf.carBrand.substring(1, inf.carBrand.length)}
+                    Car Brand : {inf.carBrand}
                   </ListGroup.Item>
                   <ListGroup.Item
                     controlId="model"
@@ -117,9 +112,7 @@ function EmployeeMainPage() {
                     name="model"
                     value={inf.model}
                   >
-                    Car Model :{" "}
-                    {inf.model.substring(0, 1).toUpperCase() +
-                      inf.model.substring(1, inf.model.length)}
+                    Car Model : {inf.model}
                   </ListGroup.Item>
                   <ListGroup.Item
                     controlId="startDate"
@@ -128,9 +121,7 @@ function EmployeeMainPage() {
                     name="startDate"
                     value={inf.startDate}
                   >
-                    Start Date :{" "}
-                    {inf.startDate.substring(0, 1).toUpperCase() +
-                      inf.startDate.substring(1, inf.startDate.length)}
+                    Start Date : {inf.startDate}
                   </ListGroup.Item>
                   <ListGroup.Item
                     controlId="endDate"
@@ -139,9 +130,7 @@ function EmployeeMainPage() {
                     name="endDate"
                     value={inf.endDate}
                   >
-                    End Date :{" "}
-                    {inf.endDate.substring(0, 1).toUpperCase() +
-                      inf.endDate.substring(1, inf.endDate.length)}
+                    End Date : {inf.endDate}
                   </ListGroup.Item>
                   <ListGroup.Item
                     controlId="customerNationalId"
@@ -150,12 +139,7 @@ function EmployeeMainPage() {
                     name="customerNationalId"
                     value={inf.customerNationalId}
                   >
-                    Customer National ID :{" "}
-                    {inf.customerNationalId.substring(0, 1).toUpperCase() +
-                      inf.customerNationalId.substring(
-                        1,
-                        inf.customerNationalId.length
-                      )}
+                    Customer National ID : {inf.customerNationalId}
                   </ListGroup.Item>
                   <ListGroup.Item
                     controlId="customerLicense"
@@ -164,12 +148,7 @@ function EmployeeMainPage() {
                     name="customerLicense"
                     value={inf.customerLicense}
                   >
-                    Customer License :{" "}
-                    {inf.customerLicense.substring(0, 1).toUpperCase() +
-                      inf.customerLicense.substring(
-                        1,
-                        inf.customerLicense.length
-                      )}
+                    Customer License : {inf.customerLicense}
                   </ListGroup.Item>
                   <ListGroup.Item
                     controlId="contactNumber"
@@ -178,9 +157,7 @@ function EmployeeMainPage() {
                     name="contactNumber"
                     value={inf.contactNumber}
                   >
-                    Contact Number :{" "}
-                    {inf.contactNumber.substring(0, 1).toUpperCase() +
-                      inf.contactNumber.substring(1, inf.contactNumber.length)}
+                    Contact Number : {inf.contactNumber}
                   </ListGroup.Item>
                 </ListGroup>
               </Col>

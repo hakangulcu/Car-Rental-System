@@ -276,7 +276,7 @@ function SearchCarCustomer() {
   };
   return (
     <div className="SearchCarCustomer">
-      <div className="TopBar">
+      <div className="TopBar" style={{marginLeft:"58%", marginBottom:"15px"}}>
         <div className="toggle-button">
           <div>
             <h4>Transporter / Rent </h4>

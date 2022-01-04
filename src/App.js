@@ -40,7 +40,7 @@ function App() {
       <Header />
       <Routes>
         {localStorage.getItem("logedIn") === "true" ? (
-          <Route path="/main" element={<MainPage />} />
+          <Route path="/SearchCarCustomer" element={<SearchCarCustomer />} />
         ) : (
           <Route path="/login" element={<Login />} />
         )}

@@ -27,8 +27,10 @@ function SearchCarCustomer() {
   const [upPrice, setUpPrice] = useState("");
   const [branchId, setBranchId] = useState("");
   const [cars, setCars] = useState([]);
+  const [transporter, setTransporter] = useState([]);
   const [popUp, setPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -109,6 +111,26 @@ function SearchCarCustomer() {
           setCars(myCars);
         }
       });
+
+    fetch(
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/gettransportationvehicles?branch_id=2&date=2021-01-04`
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setIsLoaded(true);
+
+        if (result.body.requests) {
+          const myVehicles = result.body.requests.map((vehicle) => ({
+            ride_vehicle_id: vehicle[0],
+            brand_name: vehicle[1],
+            model_name: vehicle[2],
+            capacity: vehicle[3],
+            km_price: vehicle[4],
+            branch_id: vehicle[5],
+          }));
+          setTransporter(myVehicles);
+        }
+      });
   }, []);
 
   const handleChangeFrom = (e) => {
@@ -151,6 +173,67 @@ function SearchCarCustomer() {
           setCheckboxesColor(newArray);
         }
       });
+    }
+  };
+
+  const requestHandleTrans = (e) => {
+    let customerId = localStorage.getItem("customerId");
+    if (branchId.length === 0) {
+      fetch(
+        `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/createriderequest?customer_id=${customerId}&ride_vehicle_id=${e}&date=2022-01-04
+        `
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setIsLoaded(true);
+          console.log(
+            `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/createriderequest?customer_id=${customerId}&ride_vehicle_id=${e}&date=2022-01-04`
+          );
+
+          if (result.body["message"] === "Request created succesfully") {
+            setMessage("Request created succesfully");
+            clickHandler();
+            setTimeout(() => window.location.reload(false), 2000);
+          } else if (
+            result.body["message"] === "The vehicle is not available."
+          ) {
+            setMessage("The vehicle is not available.");
+            clickHandler();
+          } else if (
+            result.body["message"] === "There is no available drivers."
+          ) {
+            setMessage("There is no available drivers.");
+            clickHandler();
+          }
+        });
+    } else {
+      let start = `${startDate.getFullYear()}-${
+        startDate.getMonth() + 1
+      }-${startDate.getDate()}`;
+
+      fetch(
+        `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/createriderequest?customer_id=${customerId}&ride_vehicle_id=${e}&date=${start}`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setIsLoaded(true);
+
+          if (result.body["message"] === "Request created succesfully") {
+            setMessage("Request created succesfully");
+            clickHandler();
+            setTimeout(() => window.location.reload(false), 2000);
+          } else if (
+            result.body["message"] === "The vehicle is not available."
+          ) {
+            setMessage("The vehicle is not available.");
+            clickHandler();
+          } else if (
+            result.body["message"] === "There is no available drivers."
+          ) {
+            setMessage("There is no available drivers.");
+            clickHandler();
+          }
+        });
     }
   };
 
@@ -212,6 +295,30 @@ function SearchCarCustomer() {
         });
     }
   };
+  function onSearchVehicle(event) {
+    let start = `${startDate.getFullYear()}-${
+      startDate.getMonth() + 1
+    }-${startDate.getDate()}`;
+
+    fetch(
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/gettransportationvehicles?branch_id=${branchId}&date=${start}`
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setIsLoaded(true);
+        if (result.body.requests) {
+          const myVehicles = result.body.requests.map((vehicle) => ({
+            ride_vehicle_id: vehicle[0],
+            brand_name: vehicle[1],
+            model_name: vehicle[2],
+            capacity: vehicle[3],
+            km_price: vehicle[4],
+            branch_id: vehicle[5],
+          }));
+          setTransporter(myVehicles);
+        }
+      });
+  }
 
   function onSearch(event) {
     let brands = "";
@@ -274,223 +381,354 @@ function SearchCarCustomer() {
   const clickHandler = () => {
     setPopUp(true);
   };
+
+  const handleSwitch = () => {
+    setCheck(!check);
+  };
   return (
     <div className="SearchCarCustomer">
-      <div className="TopBar" style={{marginLeft:"58%", marginBottom:"15px"}}>
+      <div
+        className="TopBar"
+        style={{ marginLeft: "58%", marginBottom: "15px" }}
+      >
         <div className="toggle-button">
           <div>
-            <h4>Transporter / Rent </h4>
+            <h4> Rent / Transporter </h4>
           </div>
           <div>
-            <Switch defaultChecked="transporter" />
+            <Switch onChange={handleSwitch} checked={check} />
           </div>
         </div>
       </div>
-      <div className="showcase-screen">
-        <div className="showcase-screen-left">
-          <div className="branch">
-            <div style={{ marginLeft: "20%", marginTop: "5%" }}>
-              <h3>Branch</h3>
-            </div>
+      {check === false ? (
+        <div className="showcase-screen">
+          <div className="showcase-screen-left">
+            <div className="branch">
+              <div style={{ marginLeft: "20%", marginTop: "5%" }}>
+                <h3>Branch</h3>
+              </div>
 
-            <div style={{ marginLeft: "10%", marginTop: "5%", width: "100%" }}>
-              {branches.length > 0 ? (
-                <Select
-                  defaultValue={`${branches[0].branchName} - ${branches[0].branchCity}`}
-                  style={{ width: "100%" }}
-                  onChange={handleChange}
-                >
-                  {branches &&
-                    branches.map((branch) => (
-                      <>
-                        <Option
-                          value={branch.branchId}
-                          style={{ width: "100%" }}
-                        >
-                          {`${branch.branchName} - ${branch.branchCity}`}
-                        </Option>
-                      </>
-                    ))}
-                </Select>
-              ) : (
-                <Select
-                  style={{ width: "100%" }}
-                  defaultValue=""
-                  onChange={handleChange}
-                >
-                  <>
-                    <Option value="ankara">ankara</Option>
-                  </>
-                </Select>
-              )}
+              <div
+                style={{ marginLeft: "10%", marginTop: "5%", width: "100%" }}
+              >
+                {branches.length > 0 ? (
+                  <Select
+                    defaultValue={`${branches[0].branchName} - ${branches[0].branchCity}`}
+                    style={{ width: "100%" }}
+                    onChange={handleChange}
+                  >
+                    {branches &&
+                      branches.map((branch) => (
+                        <>
+                          <Option
+                            value={branch.branchId}
+                            style={{ width: "100%" }}
+                          >
+                            {`${branch.branchName} - ${branch.branchCity}`}
+                          </Option>
+                        </>
+                      ))}
+                  </Select>
+                ) : (
+                  <Select
+                    style={{ width: "100%" }}
+                    defaultValue=""
+                    onChange={handleChange}
+                  >
+                    <>
+                      <Option value="ankara">ankara</Option>
+                    </>
+                  </Select>
+                )}
+              </div>
+            </div>
+            <h4 style={{ marginLeft: "20%", marginTop: "5%" }}>Brand</h4>
+            <div className="brand">
+              <Checkbox.Group
+                style={{
+                  width: "35%",
+                  padding: "10px",
+                  marginLeft: "20%",
+                }}
+              >
+                {checkboxes &&
+                  checkboxes.map((check) => (
+                    <Col>
+                      <Checkbox
+                        onChange={handleChecked}
+                        value={check.brandName}
+                        style={{ marginBottom: "25px" }}
+                      >
+                        {check.brandName.toUpperCase()}
+                      </Checkbox>
+                    </Col>
+                  ))}
+              </Checkbox.Group>
+            </div>
+            <div className="date">
+              {" "}
+              <Space direction="vertical" size={12}>
+                Start Date:
+                <DatePicker
+                  dateFormat={"dd/MM/yyyy"}
+                  selected={startDate}
+                  minDate={new Date("01-04-2022")}
+                  onChange={(date) => setStartDate(date)}
+                />
+                End Date:
+                <DatePicker
+                  dateFormat={"dd/MM/yyyy"}
+                  minDate={new Date("01-11-2022")}
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                />
+              </Space>
+            </div>
+            <div
+              className="price"
+              style={{ marginLeft: "20%", marginTop: "5%" }}
+            >
+              <h4>Price</h4>
+              <div className="range-from">
+                <div className="from">From:</div>
+                <Input
+                  type="number"
+                  style={{ width: "50%" }}
+                  value={fromPrice}
+                  onChange={handleChangeFrom}
+                />
+              </div>
+              <div className="range-from">
+                <div className="from">Up To:</div>
+                <Input
+                  type="number"
+                  style={{ width: "50%" }}
+                  value={upPrice}
+                  onChange={handleChangeUp}
+                />
+              </div>
+            </div>
+            <h4 style={{ marginLeft: "20%", marginTop: "5%" }}>Color</h4>
+            <div
+              className="type"
+              style={{ marginLeft: "20%", marginTop: "5%" }}
+            >
+              <Checkbox.Group
+                style={{
+                  width: "50%",
+                  padding: "10px",
+                }}
+              >
+                {checkboxesColor &&
+                  checkboxesColor.map((color) => (
+                    <Col>
+                      <Checkbox
+                        onChange={handleCheckedColor}
+                        value={color.colorName}
+                        style={{ marginBottom: "25px" }}
+                      >
+                        {color.colorName.toUpperCase()}
+                      </Checkbox>
+                    </Col>
+                  ))}
+              </Checkbox.Group>
+            </div>
+            <div className="search">
+              <Button
+                style={{
+                  textAlign: "center",
+                  marginTop: "15%",
+                  marginLeft: "20%",
+                }}
+                onClick={onSearch}
+                enterButton
+              >
+                Search
+              </Button>
             </div>
           </div>
-          <h4 style={{ marginLeft: "20%", marginTop: "5%" }}>Brand</h4>
-          <div className="brand">
-            <Checkbox.Group
-              style={{
-                width: "35%",
-                padding: "10px",
-                marginLeft: "20%",
-              }}
-            >
-              {checkboxes &&
-                checkboxes.map((check) => (
-                  <Col>
-                    <Checkbox
-                      onChange={handleChecked}
-                      value={check.brandName}
-                      style={{ marginBottom: "25px" }}
+          <div className="showcase-screen-right">
+            {cars &&
+              cars.map((car) => (
+                <div className="carScreen">
+                  <div className="carInformation">
+                    <img src="https://www.mercedes-benz.com.tr/passengercars/mercedes-benz-cars/models/amg-gt/roadster/_jcr_content/image.MQ6.2.2x.20200318130703.png" />
+                    <div className="car-info">
+                      <ul class="gonext">
+                        <li>
+                          Car Brand:{" "}
+                          <span style={{ color: "red" }}>{car.brand}</span>
+                        </li>
+                        <li>
+                          Car Model:{" "}
+                          <span style={{ color: "red" }}>{car.model}</span>
+                        </li>
+                        <li>
+                          Color:{" "}
+                          <span style={{ color: "red" }}>{car.color}</span>
+                        </li>
+                        <li>
+                          Fee: <span style={{ color: "red" }}>{car.fee}</span>
+                        </li>
+                        <li>
+                          Deposit:{" "}
+                          <span style={{ color: "red" }}>{car.deposit}</span>
+                        </li>
+                        <li>
+                          Seating Capacity:{" "}
+                          <span style={{ color: "red" }}>
+                            {car.seatingCapacity}
+                          </span>
+                        </li>
+                        <li>
+                          Current Km:{" "}
+                          <span style={{ color: "red" }}>{car.currentKm}</span>
+                        </li>
+                        <li>
+                          Fuel Consuption Type:{" "}
+                          <span style={{ color: "red" }}>
+                            {car.fuelConsuptionType}
+                          </span>
+                        </li>
+                        <li>
+                          Fuel Consuption Rate:{" "}
+                          <span style={{ color: "red" }}>
+                            {car.fuelConsuptionRate}
+                          </span>
+                        </li>
+                        <li>
+                          Description:{" "}
+                          <span style={{ color: "red" }}>
+                            {car.description}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="callButton">
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => requestHandle(car.carId)}
                     >
-                      {check.brandName.toUpperCase()}
-                    </Checkbox>
-                  </Col>
-                ))}
-            </Checkbox.Group>
-          </div>
-          <div className="date">
-            {" "}
-            <Space direction="vertical" size={12}>
-              Start Date:
-              <DatePicker
-                dateFormat={"dd/MM/yyyy"}
-                selected={startDate}
-                minDate={new Date("01-04-2022")}
-                onChange={(date) => setStartDate(date)}
-              />
-              End Date:
-              <DatePicker
-                dateFormat={"dd/MM/yyyy"}
-                minDate={new Date("01-11-2022")}
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-              />
-            </Space>
-          </div>
-          <div className="price" style={{ marginLeft: "20%", marginTop: "5%" }}>
-            <h4>Price</h4>
-            <div className="range-from">
-              <div className="from">From:</div>
-              <Input
-                type="number"
-                style={{ width: "50%" }}
-                value={fromPrice}
-                onChange={handleChangeFrom}
-              />
-            </div>
-            <div className="range-from">
-              <div className="from">Up To:</div>
-              <Input
-                type="number"
-                style={{ width: "50%" }}
-                value={upPrice}
-                onChange={handleChangeUp}
-              />
-            </div>
-          </div>
-          <h4 style={{ marginLeft: "20%", marginTop: "5%" }}>Color</h4>
-          <div className="type" style={{ marginLeft: "20%", marginTop: "5%" }}>
-            <Checkbox.Group
-              style={{
-                width: "50%",
-                padding: "10px",
-              }}
-            >
-              {checkboxesColor &&
-                checkboxesColor.map((color) => (
-                  <Col>
-                    <Checkbox
-                      onChange={handleCheckedColor}
-                      value={color.colorName}
-                      style={{ marginBottom: "25px" }}
-                    >
-                      {color.colorName.toUpperCase()}
-                    </Checkbox>
-                  </Col>
-                ))}
-            </Checkbox.Group>
-          </div>
-          <div className="search">
-            <Button
-              style={{
-                textAlign: "center",
-                marginTop: "15%",
-                marginLeft: "20%",
-              }}
-              onClick={onSearch}
-              enterButton
-            >
-              Search
-            </Button>
-          </div>
-        </div>
-        <div className="showcase-screen-right">
-          {cars &&
-            cars.map((car) => (
-              <div className="carScreen">
-                <div className="carInformation">
-                  <img src="https://www.mercedes-benz.com.tr/passengercars/mercedes-benz-cars/models/amg-gt/roadster/_jcr_content/image.MQ6.2.2x.20200318130703.png" />
-                  <div className="car-info">
-                    <ul class="gonext">
-                      <li>
-                        Car Brand:{" "}
-                        <span style={{ color: "red" }}>{car.brand}</span>
-                      </li>
-                      <li>
-                        Car Model:{" "}
-                        <span style={{ color: "red" }}>{car.model}</span>
-                      </li>
-                      <li>
-                        Color: <span style={{ color: "red" }}>{car.color}</span>
-                      </li>
-                      <li>
-                        Fee: <span style={{ color: "red" }}>{car.fee}</span>
-                      </li>
-                      <li>
-                        Deposit:{" "}
-                        <span style={{ color: "red" }}>{car.deposit}</span>
-                      </li>
-                      <li>
-                        Seating Capacity:{" "}
-                        <span style={{ color: "red" }}>
-                          {car.seatingCapacity}
-                        </span>
-                      </li>
-                      <li>
-                        Current Km:{" "}
-                        <span style={{ color: "red" }}>{car.currentKm}</span>
-                      </li>
-                      <li>
-                        Fuel Consuption Type:{" "}
-                        <span style={{ color: "red" }}>
-                          {car.fuelConsuptionType}
-                        </span>
-                      </li>
-                      <li>
-                        Fuel Consuption Rate:{" "}
-                        <span style={{ color: "red" }}>
-                          {car.fuelConsuptionRate}
-                        </span>
-                      </li>
-                      <li>
-                        Description:{" "}
-                        <span style={{ color: "red" }}>{car.description}</span>
-                      </li>
-                    </ul>
+                      Request Car{" "}
+                    </Button>
                   </div>
                 </div>
-                <div className="callButton">
-                  <Button
-                    variant="outline-primary"
-                    onClick={() => requestHandle(car.carId)}
-                  >
-                    Request Car{" "}
-                  </Button>
-                </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="showcase-screen">
+          <div className="showcase-screen-left">
+            <div className="branch">
+              <div style={{ marginLeft: "20%", marginTop: "5%" }}>
+                <h3>Branch</h3>
+              </div>
+
+              <div
+                style={{ marginLeft: "10%", marginTop: "5%", width: "100%" }}
+              >
+                {branches.length > 0 ? (
+                  <Select
+                    defaultValue={`${branches[0].branchName} - ${branches[0].branchCity}`}
+                    style={{ width: "100%" }}
+                    onChange={handleChange}
+                  >
+                    {branches &&
+                      branches.map((branch) => (
+                        <>
+                          <Option
+                            value={branch.branchId}
+                            style={{ width: "100%" }}
+                          >
+                            {`${branch.branchName} - ${branch.branchCity}`}
+                          </Option>
+                        </>
+                      ))}
+                  </Select>
+                ) : (
+                  <Select
+                    style={{ width: "100%" }}
+                    defaultValue=""
+                    onChange={handleChange}
+                  >
+                    <>
+                      <Option value="ankara">ankara</Option>
+                    </>
+                  </Select>
+                )}
+              </div>
+            </div>
+            <div className="date">
+              {" "}
+              <Space direction="vertical" size={12}>
+                Date:
+                <DatePicker
+                  dateFormat={"dd/MM/yyyy"}
+                  selected={startDate}
+                  minDate={new Date("01-04-2022")}
+                  onChange={(date) => setStartDate(date)}
+                />
+              </Space>
+            </div>
+            <div className="search">
+              <Button
+                style={{
+                  textAlign: "center",
+                  marginTop: "15%",
+                  marginLeft: "20%",
+                }}
+                onClick={onSearchVehicle}
+                enterButton
+              >
+                Search
+              </Button>
+            </div>
+          </div>
+          <div className="showcase-screen-right">
+            {transporter &&
+              transporter.map((trans) => (
+                <div className="carScreen">
+                  <div className="carInformation">
+                    <img src="http://www.viparacfiyatlari.com/wp-content/uploads/2015/11/vito119AA.jpg" />
+                    <div className="car-info">
+                      <ul class="gonext">
+                        <li>
+                          Transporter Brand:{" "}
+                          <span style={{ color: "red" }}>
+                            {trans.brand_name}
+                          </span>
+                        </li>
+                        <li>
+                          Transporter Model:{" "}
+                          <span style={{ color: "red" }}>
+                            {trans.model_name}
+                          </span>
+                        </li>
+                        <li>
+                          Capacity:{" "}
+                          <span style={{ color: "red" }}>{trans.capacity}</span>
+                        </li>
+                        <li>
+                          Km Price:{" "}
+                          <span style={{ color: "red" }}>{trans.km_price}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="callButton">
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => requestHandleTrans(trans.ride_vehicle_id)}
+                    >
+                      Request Transporter{" "}
+                    </Button>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
       <Popup trigger={popUp} setPopUp={setPopUp} message={message} />
     </div>
   );

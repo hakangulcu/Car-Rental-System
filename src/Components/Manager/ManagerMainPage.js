@@ -143,30 +143,29 @@ function ManagerMainPage() {
         </div>
         <div className="Employees">
           <h2 style={{ width: "100%", textAlign: "center" }}> EMPLOYEES</h2>
-          <h4 style={{color:"red", marginLeft:"7%", marginTop:"7%"}}>Best Employee:&nbsp;
-          {bestEmployees &&
-            bestEmployees.map((best) => (
+          <h4 style={{ color: "red", marginLeft: "7%", marginTop: "7%" }}>
+            Best Employee:&nbsp;
+            {bestEmployees &&
+              bestEmployees.map((best) => (
                 <span style={{ color: "black" }}>
                   {best.name} {best.surname}{" "}
                 </span>
-              
-            ))}
-             </h4>
-            <h4 style={{color:"red", marginLeft:"7%"}}>Worst Employees:&nbsp;
-          {worstEmployees &&
-            worstEmployees.map((worst) => (
-              
+              ))}
+          </h4>
+          <h4 style={{ color: "red", marginLeft: "7%" }}>
+            Worst Employees:&nbsp;
+            {worstEmployees &&
+              worstEmployees.map((worst) => (
                 <span style={{ color: "black" }}>
-                 {worst.name} {worst.surname}{" ,"}
+                  {worst.name} {worst.surname}
+                  {" ,"}
                 </span>
-              
-            ))}
-            </h4>
+              ))}
+          </h4>
           {employees &&
             employees.map((employee) => (
               <EmployeeInformation employee={employee} />
-            ))
-            }
+            ))}
         </div>
       </div>
     </div>

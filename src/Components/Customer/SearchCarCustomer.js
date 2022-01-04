@@ -277,14 +277,6 @@ function SearchCarCustomer() {
   return (
     <div className="SearchCarCustomer">
       <div className="TopBar">
-        <div className="search">
-          <Search
-            placeholder="Please enter brand"
-            style={{ textAlign: "center" }}
-            onSearch={onSearch}
-            enterButton
-          />
-        </div>
         <div className="toggle-button">
           <div>
             <h4>Transporter / Rent </h4>
@@ -301,26 +293,25 @@ function SearchCarCustomer() {
               <h3>Branch</h3>
             </div>
 
-            <div style={{ marginLeft: "15%", marginTop: "5%" }}>
+            <div style={{ marginLeft: "10%", marginTop: "5%", width:"100%"}}>
               {branches.length > 0 ? (
                 <Select
                   defaultValue={`${branches[0].branchName} - ${branches[0].branchCity}`}
-                  style={{ width: 300 }}
+                  style={{ width: "100%" }}
                   onChange={handleChange}
                 >
                   {branches &&
                     branches.map((branch) => (
                       <>
-                        <Option value={branch.branchId}>
+                        <Option value={branch.branchId} style={{ width: "100%" }}>
                           {`${branch.branchName} - ${branch.branchCity}`}
                         </Option>
                       </>
                     ))}
                 </Select>
               ) : (
-                <Select
+                <Select style={{ width: "100%" }}
                   defaultValue=""
-                  style={{ width: 300 }}
                   onChange={handleChange}
                 >
                   <>
@@ -415,6 +406,15 @@ function SearchCarCustomer() {
                 ))}
             </Checkbox.Group>
           </div>
+          <div className="search">
+            <Button
+              style={{ textAlign: "center", marginTop:"15%", marginLeft:"20%"}}
+              onClick={onSearch}
+              enterButton
+            >
+              Search
+            </Button>
+          </div>
         </div>
         <div className="showcase-screen-right">
           {cars &&
@@ -423,35 +423,29 @@ function SearchCarCustomer() {
                 <div className="carInformation">
                   <img src="https://www.mercedes-benz.com.tr/passengercars/mercedes-benz-cars/models/amg-gt/roadster/_jcr_content/image.MQ6.2.2x.20200318130703.png" />
                   <div className="car-info">
-                    Car Brand {car.brand}
-                    <br />
-                    Car Model {car.model}
-                    <br />
-                    Color {car.color}
-                    <br />
-                    Fee {car.fee}
-                    <br />
-                    Deposit {car.deposit}
-                    <br />
-                    Seating Capacity {car.seatingCapacity}
-                    <br />
-                    Current Km {car.currentKm}
-                    <br />
-                    Fuel Consuption Type {car.fuelConsuptionType}
-                    <br />
-                    Fuel Consuption Rate {car.fuelConsuptionRate}
-                    <br />
-                    Description {car.description}
-                    <br />
+                    <ul class="gonext">
+                      <li>Car Brand: <span style={{color:"red"}}>{car.brand}</span></li>
+                      <li>Car Model: <span style={{color:"red"}}>{car.model}</span></li>
+                      <li>Color: <span style={{color:"red"}}>{car.color}</span></li>
+                      <li>Fee: <span style={{color:"red"}}>{car.fee}</span></li>
+                      <li>Deposit: <span style={{color:"red"}}>{car.deposit}</span></li>
+                      <li>Seating Capacity: <span style={{color:"red"}}>{car.seatingCapacity}</span></li>
+                      <li>Current Km: <span style={{color:"red"}}>{car.currentKm}</span></li>
+                      <li>Fuel Consuption Type: <span style={{color:"red"}}>{car.fuelConsuptionType}</span></li>
+                      <li>Fuel Consuption Rate: <span style={{color:"red"}}>{car.fuelConsuptionRate}</span></li>
+                      <li>Description: <span style={{color:"red"}}>{car.description}</span></li>
+                    </ul>
                   </div>
                 </div>
                 <div className="callButton">
-                  <Button
-                    variant="outline-primary"
-                    onClick={() => requestHandle(car.carId)}
-                  >
-                    Request Car{" "}
-                  </Button>
+                 
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => requestHandle(car.carId)}
+                    >
+                      Request Car{" "}
+                    </Button>
+                
                 </div>
               </div>
             ))}

@@ -4,12 +4,11 @@
   min-width: 100%;
 }
 .search {
-  padding: 10px;
   display: flex;
   align-items: center;
   border-radius: 25px;
   height: 20px;
-  width: 500px;
+  width: 100%;
   margin-left: 25%;
   margin-top: 10px;
 }
@@ -105,5 +104,14 @@
 .callButton {
   display: flex;
   align-items: center;
-  margin-left: 10%;
+  margin-left: auto;
+  margin-right: 25%;
 }
+
+.gonext li {
+    list-style: none;
+  }
+  .gonext li:after {
+    content: "\A";
+    white-space: pre;
+  }

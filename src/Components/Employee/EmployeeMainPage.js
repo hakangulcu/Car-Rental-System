@@ -25,11 +25,12 @@ function EmployeeMainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [info, setInfo] = useState([]);
   const [rentDate, setrentDate] = useState(new Date());
+  let employeeId = localStorage.getItem("employeeId");
+  const [popUp, setPopUp] = useState(false);
+  const [message, setMessage] = useState("");
   useEffect(() => {
-    let managerId = localStorage.getItem("employeeId");
-
     fetch(
-      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getrequests?employee_id=${managerId}`
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getrequests?employee_id=${employeeId}`
     )
       .then((response) => response.json())
       .then((result) => {
@@ -54,10 +55,49 @@ function EmployeeMainPage() {
           setInfo(infos);
         }
       });
-  }, []);
+  }, [employeeId]);
 
-  const handleAccept = () => {};
-  const handleDecline = () => {};
+  const handleAccept = (branchId, carId, customerId, startDate, endDate) => {
+    fetch(
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/approverequest?branch_id=${branchId}&car_id=${carId}&customer_id=${customerId}&start_day=${startDate}&end_day=${endDate}&employee_id=${employeeId}`
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setIsLoaded(true);
+        if (result.body["message"] === "There is no such request.") {
+          setMessage("There is no such request.");
+          clickHandler();
+          setTimeout(() => window.location.reload(false), 2000);
+        } else if (
+          result.body["message"] === "Car is not available on those days."
+        ) {
+          setMessage("Car is not available on those days.");
+          clickHandler();
+          setTimeout(() => window.location.reload(false), 2000);
+        } else if (result.body["message"] === "Rent is succesfully approved.") {
+          setMessage("Rent is succesfully approved.");
+          clickHandler();
+          setTimeout(() => window.location.reload(false), 2000);
+        }
+      });
+  };
+  const handleDecline = (branchId, carId, customerId, startDate, endDate) => {
+    fetch(
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/declinerequest?branch_id=${branchId}&car_id=${carId}&customer_id=${customerId}&start_day=${startDate}&end_day=${endDate}&employee_id=${employeeId}`
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setIsLoaded(true);
+        if (result.body["message"] === "Request succesfully declined.") {
+          setMessage("Request succesfully declined.");
+          clickHandler();
+          setTimeout(() => window.location.reload(false), 2000);
+        }
+      });
+  };
+  const clickHandler = () => {
+    setPopUp(true);
+  };
 
   return (
     <div className="employeeMain">
@@ -167,7 +207,15 @@ function EmployeeMainPage() {
                   block="true"
                   size="lg"
                   type="submit"
-                  onClick={handleAccept}
+                  onClick={() => {
+                    handleAccept(
+                      inf.branchId,
+                      inf.carId,
+                      inf.customerId,
+                      inf.startDate,
+                      inf.endDate
+                    );
+                  }}
                 >
                   Accept
                 </Button>
@@ -176,7 +224,15 @@ function EmployeeMainPage() {
                   block="true"
                   size="lg"
                   type="submit"
-                  onClick={handleDecline}
+                  onClick={() => {
+                    handleDecline(
+                      inf.branchId,
+                      inf.carId,
+                      inf.customerId,
+                      inf.startDate,
+                      inf.endDate
+                    );
+                  }}
                 >
                   Decline
                 </Button>
@@ -184,6 +240,7 @@ function EmployeeMainPage() {
             </Row>
           </Container>
         ))}
+      <Popup trigger={popUp} setPopUp={setPopUp} message={message} />
     </div>
   );
 }

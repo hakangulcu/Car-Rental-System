@@ -59,7 +59,7 @@ function Login(props) {
               localStorage.setItem("employeePassword", password);
               localStorage.setItem("employeeId", result.body["employee"][0]);
               localStorage.setItem("employeeType", result.body["person_type"]);
-              navigate("/employeeMain");
+              navigate("/EmployeeMainPage");
             } else if (result.body["person_type"] === "manager") {
               localStorage.setItem("logedIn", "true");
               localStorage.setItem("managerEmail", email);

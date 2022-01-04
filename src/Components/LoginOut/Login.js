@@ -52,7 +52,7 @@ function Login(props) {
               localStorage.setItem("customerPassword", password);
               localStorage.setItem("customerId", result.body["customer"][0]);
               localStorage.setItem("customerType", result.body["person_type"]);
-              navigate("/customerMainPage");
+              navigate("/SearchCarCustomer");
             } else if (result.body["person_type"] === "employee") {
               localStorage.setItem("logedIn", "true");
               localStorage.setItem("employeeEmail", email);
@@ -131,10 +131,9 @@ function Login(props) {
             lg={6}
             style={{ alignItems: "center", flext: "1", marginTop: "200px" }}
           >
-           
             <div className="Login">
-            <SwitchButton />
-              <Form onSubmit={handleSubmit} style={{marginTop:"10%"}}>
+              <SwitchButton />
+              <Form onSubmit={handleSubmit} style={{ marginTop: "10%" }}>
                 <Form.Group size="lg" controlId="email">
                   <Form.Control
                     autoFocus

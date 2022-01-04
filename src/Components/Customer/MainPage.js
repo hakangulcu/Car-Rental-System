@@ -6,7 +6,6 @@ import { Input } from "antd";
 import Form from "react-bootstrap/Form";
 import Figure from "react-bootstrap/Figure";
 import Card from "react-bootstrap/Card";
-
 import Button from "react-bootstrap/Button";
 import img1 from "../../images/audi.jpg";
 import img2 from "../../images/bmw.jpg";
@@ -15,12 +14,14 @@ import img4 from "../../images/vw.png";
 import audiA3 from "../../images/audi-a3.png";
 import bmwI8 from "../../images/bmw-i8.png";
 import "antd/dist/antd.css";
-
 import "./customer.css";
+import { useLocation, useNavigate } from "react-router-dom";
+
 const { Search } = Input;
 const { TextArea } = Input;
 function MainPage() {
   const [search, setSearch] = useState("");
+
   function onSearch(event) {}
   return (
     <div className="fullPage">
@@ -171,8 +172,6 @@ function MainPage() {
           >
             Rent
           </Button>
-
-          
         </div>
         <div className="car1">
           <img

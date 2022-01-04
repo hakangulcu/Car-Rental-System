@@ -23,20 +23,7 @@ import Popup from "../popUp/Popup";
 
 function EmployeeMainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [info, setInfo] = useState({
-    customerName: "",
-    customerType: "",
-    carBrand: "",
-    model: "",
-    rentDate: "",
-    customerNationalId: "",
-    customerLicense: "",
-    customerPoint: "",
-    contactNumber: "",
-    takenFrom: "",
-    willreturn: "",
-    rentalType: "",
-  });
+  const [info, setInfo] = useState([]);
   const [rentDate, setrentDate] = useState(new Date());
   useEffect(() => {
     let managerId = localStorage.getItem("employeeId");
@@ -47,151 +34,179 @@ function EmployeeMainPage() {
       .then((response) => response.json())
       .then((result) => {
         setIsLoaded(true);
-        console.log(result.body);
+
+        if (result.body.requests) {
+          const infos = result.body.requests.map((request) => ({
+            customerName: request[0],
+            customerSurname: request[1],
+            carBrand: request[2],
+            model: request[3],
+            startDate: request[4],
+            endDate: request[5],
+            customerNationalId: request[6],
+            customerLicense: request[7],
+            contactNumber: request[8],
+          }));
+          setInfo(infos);
+        }
       });
   }, []);
+
+  const handleAccept = () => {};
+  const handleDecline = () => {};
+
   return (
     <div className="employeeMain">
-      <Container>
-        <Row style={{ marginTop: "2%", border: "2px solid black" }}>
-          <Col>
-            <img
-              src="https://www.mercedes-benz.com.tr/passengercars/mercedes-benz-cars/models/amg-gt/roadster/_jcr_content/image.MQ6.2.2x.20200318130703.png"
-              alt=""
-            />
-          </Col>
-          <Col>
-            <ListGroup variant="flush">
-              <ListGroup.Item
-                controlId="customerName"
-                autoFocus
-                type="text"
-                name="customerName"
-                value={info.customerName}
-              >
-                Customer Name
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="customerType"
-                autoFocus
-                type="text"
-                name="customerType"
-                value={info.customerType}
-              >
-                Customer Type
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="carBrand"
-                autoFocus
-                type="text"
-                name="carBrand"
-                value={info.carBrand}
-              >
-                Car Brand
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="model"
-                autoFocus
-                type="text"
-                name="model"
-                value={info.model}
-              >
-                Model
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="rentDate"
-                autoFocus
-                type="text"
-                name="rentDate"
-                value={info.rentDate}
-              >
-                Rent Date
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="customerNationalId"
-                autoFocus
-                type="number"
-                name="customerNationalId"
-                value={info.customerNationalId}
-              >
-                Customer National ID
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="customerLicense"
-                autoFocus
-                type="number"
-                name="customerLicense"
-                value={info.customerLicense}
-              >
-                Customer License
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="customerPoint"
-                autoFocus
-                type="text"
-                name="customerPoint"
-                value={info.customerPoint}
-              >
-                Customer Point
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="contactNumber"
-                autoFocus
-                type="number"
-                name="contactNumber"
-                value={info.contactNumber}
-              >
-                Contact Number
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="takenFrom"
-                autoFocus
-                type="text"
-                name="takenFrom"
-                value={info.takenFrom}
-              >
-                Taken From
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="willreturn"
-                autoFocus
-                type="text"
-                name="willreturn"
-                value={info.willreturn}
-              >
-                Will Return
-              </ListGroup.Item>
-              <ListGroup.Item
-                controlId="rentalType"
-                autoFocus
-                type="text"
-                name="rentalType"
-                value={info.rentalType}
-              >
-                Rental Type
-              </ListGroup.Item>
-            </ListGroup>
-          </Col>
-          <Col>
-            <Button
-              style={{ marginLeft: "30%", marginTop: "50%" }}
-              block="true"
-              size="lg"
-              type="submit"
+      {info &&
+        info.map((inf) => (
+          <Container>
+            <Row
+              style={{
+                marginTop: "2%",
+                border: "2px solid black",
+              }}
             >
-              Accept
-            </Button>
-            <Button
-              style={{ marginLeft: "10%", marginTop: "50%" }}
-              block="true"
-              size="lg"
-              type="submit"
-            >
-              Decline
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+              <Col>
+                <img
+                  src="https://www.mercedes-benz.com.tr/passengercars/mercedes-benz-cars/models/amg-gt/roadster/_jcr_content/image.MQ6.2.2x.20200318130703.png"
+                  alt=""
+                />
+              </Col>
+              <Col>
+                <ListGroup variant="flush">
+                  <ListGroup.Item
+                    controlId="customerName"
+                    autoFocus
+                    type="text"
+                    name="customerName"
+                    value={inf.customerName}
+                  >
+                    Customer Name:{" "}
+                    {inf.customerName.substring(0, 1).toUpperCase() +
+                      inf.customerName.substring(1, inf.customerName.length)}
+                  </ListGroup.Item>
+                  <ListGroup.Item
+                    controlId="customerSurname"
+                    autoFocus
+                    type="text"
+                    name="customerSurname"
+                    value={inf.customerSurname}
+                  >
+                    Customer Surname :{" "}
+                    {inf.customerSurname.substring(0, 1).toUpperCase() +
+                      inf.customerSurname.substring(
+                        1,
+                        inf.customerSurname.length
+                      )}
+                  </ListGroup.Item>
+                  <ListGroup.Item
+                    controlId="carBrand"
+                    autoFocus
+                    type="text"
+                    name="carBrand"
+                    value={inf.carBrand}
+                  >
+                    Car Brand :{" "}
+                    {inf.carBrand.substring(0, 1).toUpperCase() +
+                      inf.carBrand.substring(1, inf.carBrand.length)}
+                  </ListGroup.Item>
+                  <ListGroup.Item
+                    controlId="model"
+                    autoFocus
+                    type="text"
+                    name="model"
+                    value={inf.model}
+                  >
+                    Car Model :{" "}
+                    {inf.model.substring(0, 1).toUpperCase() +
+                      inf.model.substring(1, inf.model.length)}
+                  </ListGroup.Item>
+                  <ListGroup.Item
+                    controlId="startDate"
+                    autoFocus
+                    type="text"
+                    name="startDate"
+                    value={inf.startDate}
+                  >
+                    Start Date :{" "}
+                    {inf.startDate.substring(0, 1).toUpperCase() +
+                      inf.startDate.substring(1, inf.startDate.length)}
+                  </ListGroup.Item>
+                  <ListGroup.Item
+                    controlId="endDate"
+                    autoFocus
+                    type="text"
+                    name="endDate"
+                    value={inf.endDate}
+                  >
+                    End Date :{" "}
+                    {inf.endDate.substring(0, 1).toUpperCase() +
+                      inf.endDate.substring(1, inf.endDate.length)}
+                  </ListGroup.Item>
+                  <ListGroup.Item
+                    controlId="customerNationalId"
+                    autoFocus
+                    type="number"
+                    name="customerNationalId"
+                    value={inf.customerNationalId}
+                  >
+                    Customer National ID :{" "}
+                    {inf.customerNationalId.substring(0, 1).toUpperCase() +
+                      inf.customerNationalId.substring(
+                        1,
+                        inf.customerNationalId.length
+                      )}
+                  </ListGroup.Item>
+                  <ListGroup.Item
+                    controlId="customerLicense"
+                    autoFocus
+                    type="number"
+                    name="customerLicense"
+                    value={inf.customerLicense}
+                  >
+                    Customer License :{" "}
+                    {inf.customerLicense.substring(0, 1).toUpperCase() +
+                      inf.customerLicense.substring(
+                        1,
+                        inf.customerLicense.length
+                      )}
+                  </ListGroup.Item>
+                  <ListGroup.Item
+                    controlId="contactNumber"
+                    autoFocus
+                    type="text"
+                    name="contactNumber"
+                    value={inf.contactNumber}
+                  >
+                    Contact Number :{" "}
+                    {inf.contactNumber.substring(0, 1).toUpperCase() +
+                      inf.contactNumber.substring(1, inf.contactNumber.length)}
+                  </ListGroup.Item>
+                </ListGroup>
+              </Col>
+              <Col>
+                <Button
+                  style={{ marginLeft: "30%", marginTop: "50%" }}
+                  block="true"
+                  size="lg"
+                  type="submit"
+                  onClick={handleAccept}
+                >
+                  Accept
+                </Button>
+                <Button
+                  style={{ marginLeft: "10%", marginTop: "50%" }}
+                  block="true"
+                  size="lg"
+                  type="submit"
+                  onClick={handleDecline}
+                >
+                  Decline
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+        ))}
     </div>
   );
 }

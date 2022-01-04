@@ -293,7 +293,7 @@ function SearchCarCustomer() {
               <h3>Branch</h3>
             </div>
 
-            <div style={{ marginLeft: "10%", marginTop: "5%", width:"100%"}}>
+            <div style={{ marginLeft: "10%", marginTop: "5%", width: "100%" }}>
               {branches.length > 0 ? (
                 <Select
                   defaultValue={`${branches[0].branchName} - ${branches[0].branchCity}`}
@@ -303,14 +303,18 @@ function SearchCarCustomer() {
                   {branches &&
                     branches.map((branch) => (
                       <>
-                        <Option value={branch.branchId} style={{ width: "100%" }}>
+                        <Option
+                          value={branch.branchId}
+                          style={{ width: "100%" }}
+                        >
                           {`${branch.branchName} - ${branch.branchCity}`}
                         </Option>
                       </>
                     ))}
                 </Select>
               ) : (
-                <Select style={{ width: "100%" }}
+                <Select
+                  style={{ width: "100%" }}
                   defaultValue=""
                   onChange={handleChange}
                 >
@@ -408,7 +412,11 @@ function SearchCarCustomer() {
           </div>
           <div className="search">
             <Button
-              style={{ textAlign: "center", marginTop:"15%", marginLeft:"20%"}}
+              style={{
+                textAlign: "center",
+                marginTop: "15%",
+                marginLeft: "20%",
+              }}
               onClick={onSearch}
               enterButton
             >
@@ -424,28 +432,60 @@ function SearchCarCustomer() {
                   <img src="https://www.mercedes-benz.com.tr/passengercars/mercedes-benz-cars/models/amg-gt/roadster/_jcr_content/image.MQ6.2.2x.20200318130703.png" />
                   <div className="car-info">
                     <ul class="gonext">
-                      <li>Car Brand: <span style={{color:"red"}}>{car.brand}</span></li>
-                      <li>Car Model: <span style={{color:"red"}}>{car.model}</span></li>
-                      <li>Color: <span style={{color:"red"}}>{car.color}</span></li>
-                      <li>Fee: <span style={{color:"red"}}>{car.fee}</span></li>
-                      <li>Deposit: <span style={{color:"red"}}>{car.deposit}</span></li>
-                      <li>Seating Capacity: <span style={{color:"red"}}>{car.seatingCapacity}</span></li>
-                      <li>Current Km: <span style={{color:"red"}}>{car.currentKm}</span></li>
-                      <li>Fuel Consuption Type: <span style={{color:"red"}}>{car.fuelConsuptionType}</span></li>
-                      <li>Fuel Consuption Rate: <span style={{color:"red"}}>{car.fuelConsuptionRate}</span></li>
-                      <li>Description: <span style={{color:"red"}}>{car.description}</span></li>
+                      <li>
+                        Car Brand:{" "}
+                        <span style={{ color: "red" }}>{car.brand}</span>
+                      </li>
+                      <li>
+                        Car Model:{" "}
+                        <span style={{ color: "red" }}>{car.model}</span>
+                      </li>
+                      <li>
+                        Color: <span style={{ color: "red" }}>{car.color}</span>
+                      </li>
+                      <li>
+                        Fee: <span style={{ color: "red" }}>{car.fee}</span>
+                      </li>
+                      <li>
+                        Deposit:{" "}
+                        <span style={{ color: "red" }}>{car.deposit}</span>
+                      </li>
+                      <li>
+                        Seating Capacity:{" "}
+                        <span style={{ color: "red" }}>
+                          {car.seatingCapacity}
+                        </span>
+                      </li>
+                      <li>
+                        Current Km:{" "}
+                        <span style={{ color: "red" }}>{car.currentKm}</span>
+                      </li>
+                      <li>
+                        Fuel Consuption Type:{" "}
+                        <span style={{ color: "red" }}>
+                          {car.fuelConsuptionType}
+                        </span>
+                      </li>
+                      <li>
+                        Fuel Consuption Rate:{" "}
+                        <span style={{ color: "red" }}>
+                          {car.fuelConsuptionRate}
+                        </span>
+                      </li>
+                      <li>
+                        Description:{" "}
+                        <span style={{ color: "red" }}>{car.description}</span>
+                      </li>
                     </ul>
                   </div>
                 </div>
                 <div className="callButton">
-                 
-                    <Button
-                      variant="outline-primary"
-                      onClick={() => requestHandle(car.carId)}
-                    >
-                      Request Car{" "}
-                    </Button>
-                
+                  <Button
+                    variant="outline-primary"
+                    onClick={() => requestHandle(car.carId)}
+                  >
+                    Request Car{" "}
+                  </Button>
                 </div>
               </div>
             ))}

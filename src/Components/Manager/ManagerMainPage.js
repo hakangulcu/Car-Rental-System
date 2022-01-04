@@ -10,7 +10,11 @@ function ManagerMainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [cars, setCars] = useState([]);
   const [employees, setEmployees] = useState([]);
+  const [transportationVehicles, setTransportationVehicles] = useState([]);
+  const [bestEmployees, setBestEmployees] = useState([]);
+  const [worstEmployees, setWorstEmployees] = useState([]);
   let managerId = localStorage.getItem("managerId");
+  let managerEmail = localStorage.getItem("managerEmail");
   useEffect(() => {
     fetch(
       `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getallcar?manager_id=${managerId}`
@@ -56,24 +60,67 @@ function ManagerMainPage() {
             status: employee[4],
           }));
           setEmployees(myEmployees);
-          console.log(myEmployees);
         }
       });
-  }, [managerId]);
+    fetch(
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getalltransportationvehicleforbranch?email=${managerEmail}`
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setIsLoaded(true);
+        if (result.body.vehicles) {
+          const myVehicles = result.body.vehicles.map((vehicle) => ({
+            plate: vehicle[0],
+            permitSerialNumber: vehicle[1],
+            insuranceSerialNumber: vehicle[2],
+            brandName: vehicle[3],
+            modelName: vehicle[4],
+            capacity: vehicle[5],
+          }));
+          setTransportationVehicles(myVehicles);
+        }
+      });
+
+    fetch(
+      `https://jjkk5chlhg.execute-api.eu-central-1.amazonaws.com/prod/getbestandworstemployee?email=${managerEmail}`
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setIsLoaded(true);
+        if (result.body.best_employees) {
+          const myBest = result.body.best_employees.map((best) => ({
+            name: best[0],
+            surname: best[1],
+          }));
+          setBestEmployees(myBest);
+        }
+        if (result.body.worst_employees) {
+          const myWorst = result.body.worst_employees.map((worst) => ({
+            name: worst[0],
+            surname: worst[1],
+          }));
+          setWorstEmployees(myWorst);
+        }
+      });
+  }, [managerId, managerEmail]);
 
   return (
     <div className="ManagerMainPage">
       <div className="TopRow">
         <Button
           variant="secondary"
-          style={{ backgroundColor: "black", marginBottom:"5%" }}
+          style={{ backgroundColor: "black", marginBottom: "5%" }}
           href="/AddCarPage"
         >
           Add Car
         </Button>
         <Button
           variant="secondary"
-          style={{ backgroundColor: "green", marginLeft: "10px",marginBottom:"5%" }}
+          style={{
+            backgroundColor: "green",
+            marginLeft: "10px",
+            marginBottom: "5%",
+          }}
           href="/CreateEmployeePage"
         >
           Create Employee
@@ -81,24 +128,57 @@ function ManagerMainPage() {
       </div>
       <div className="ManagerMainPageColumns">
         <div className="CarsColumn">
-        <h2 style={{width:"100%", textAlign:"center"}}>CARS</h2>
-          {" "}
-          {cars && cars.map((car) => <CarsInformation car={car}/>)}
+          <h2 style={{ width: "100%", textAlign: "center" }}>CARS</h2>{" "}
+          {cars && cars.map((car) => <CarsInformation car={car} />)}
         </div>
         <div className="TransportationColumn">
-          <h2 style={{width:"100%", textAlign:"center"}}> TRANSPORTATION VEHICLES</h2>
-          {" "}
-          <TransportationInformation />
-          <TransportationInformation />
-          <TransportationInformation />
-          <TransportationInformation />
-          <TransportationInformation />
+          <h2 style={{ width: "100%", textAlign: "center" }}>
+            {" "}
+            TRANSPORTATION VEHICLES
+          </h2>
+          {transportationVehicles &&
+            transportationVehicles.map((vehicle) => (
+              <TransportationInformation vehicle={vehicle} />
+            ))}
         </div>
         <div className="Employees">
-          <h2 style={{width:"100%", textAlign:"center"}}> EMPLOYEES</h2>
-          <li style={{width:"100%", textAlign:"left", marginTop:"5%", marginLeft:"5%", color:"red", fontWeight:"bold"}}>Best Employee:<span style={{color:"black"}}>&nbsp;Hakan</span></li>
-          <li style={{width:"100%", textAlign:"left", marginTop:"5%", marginLeft:"5%", color:"red", fontWeight:"bold"}}>Worst Employee:<span style={{color:"black"}}>&nbsp;Berke</span></li>
-          {" "}
+          <h2 style={{ width: "100%", textAlign: "center" }}> EMPLOYEES</h2>
+          {bestEmployees &&
+            bestEmployees.map((best) => (
+              <li
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  marginTop: "5%",
+                  marginLeft: "5%",
+                  color: "red",
+                  fontWeight: "bold",
+                }}
+              >
+                Best Employee:
+                <span style={{ color: "black" }}>
+                  &nbsp;{best.name} {best.surname}{" "}
+                </span>
+              </li>
+            ))}
+          {worstEmployees &&
+            worstEmployees.map((worst) => (
+              <li
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  marginTop: "5%",
+                  marginLeft: "5%",
+                  color: "red",
+                  fontWeight: "bold",
+                }}
+              >
+                Worst Employee:
+                <span style={{ color: "black" }}>
+                  &nbsp;{worst.name} {worst.surname}{" "}
+                </span>
+              </li>
+            ))}
           {employees &&
             employees.map((employee) => (
               <EmployeeInformation employee={employee} />
